@@ -65,8 +65,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Classes\Geral\CalcularLeisSociais.cs" />
-    <Compile Include="Classes\Geral\CpuGeral.cs" />
-    <Compile Include="Classes\Geral\InsumoGeral.cs" />
+    <Compile Include="Classes\Base\CpuGeral.cs" />
+    <Compile Include="Classes\Base\InsumoGeral.cs" />
     <Compile Include="Interfaces\Geral\IChaveValue.cs" />
     <Compile Include="Interfaces\Geral\ICpuGeral.cs" />
     <Compile Include="Interfaces\Geral\IInsumoGeral.cs" />

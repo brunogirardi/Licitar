@@ -135,15 +135,15 @@
                     <!-- Composição -->
                     <Grid Grid.Column="1" Margin="10,0,10,0">
                         <TextBlock Text="Relação de Itens da Composição" />
-                        <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Código" Width="80" />
-                                <DataGridTextColumn Header="Descrição do Insumo / Serviço" Width="*" />
-                                <DataGridTextColumn Header="Unidade" Width="70" />
-                                <DataGridTextColumn Header="Tipo" Width="80" />
-                                <DataGridTextColumn Header="Quantidade" Width="90" />
-                                <DataGridTextColumn Header="Valor Unit." Width="90" />
-                                <DataGridTextColumn Header="Valor Total" Width="90" />
+                                <DataGridTextColumn Binding="{Binding CodigoRef}"  Header="Código" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Descrição}" Header="Descrição do Insumo / Serviço" Width="*" />
+                                <DataGridTextColumn Binding="{Binding Unidade}" Header="Unidade" Width="70" />
+                                <DataGridTextColumn Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" Header="Tipo" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Quantidade}" Header="Quantidade" Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorUnitario}" Header="Valor Unit." Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor Total" Width="90" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

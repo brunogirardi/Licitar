@@ -91,23 +91,22 @@ namespace Licitar
                 new OrcamentoInsumos() { Item="01.02.01.03", Bdi=Bdis[0], CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
                 new OrcamentoInsumos() { Item="01.02.01.04", Bdi=Bdis[0], CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
                 new OrcamentoCpu() {
-                    Item = "01.02.01.04",
+                    Item = "01.02.01.05",
                     Bdi = Bdis[0],
-                    CodigoRef = 154,
-                    Descrição = "PEDREIRO",
-                    Tipo = tipoInsumo.Material,
-                    Unidade= "SC",
+                    CodigoRef = 157,
+                    Descrição = "CONCRETO USINADO FCK=35MPA",
+                    Unidade= "M3",
                     Sequencia = 2,
                     Quantidade = 1,
                     ObjetoPai = 8,
-                    //Itens = new ObservableCollection<IOrcamentoInsumo>()
-                    //{
-                    //    new OrcamentoInsumos() { CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=27.45D , Quantidade=7 },
-                    //    new OrcamentoInsumos() { CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.8D },
-                    //    new OrcamentoInsumos() { CodigoRef= 154, Descrição="BRITA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.6D },
-                    //    new OrcamentoInsumos() { CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=3D },
-                    //    new OrcamentoInsumos() { CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1.5D },
-                    //}
+                    Itens = new ObservableCollection<IInsumoGeral>()
+                    {
+                        new InsumoGeral() { CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=27.45D , Quantidade=7 },
+                        new InsumoGeral() { CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.8D },
+                        new InsumoGeral() { CodigoRef= 154, Descrição="BRITA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.6D },
+                        new InsumoGeral() { CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=3D },
+                        new InsumoGeral() { CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1.5D }
+                    }
                 },
 
             };

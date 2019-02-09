@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PropertyChanged;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Licitar
 {
     class OrcamentoCpu : IOrcamentoCpu
     {
+
+        private ObservableCollection<IInsumoGeral> insumos;
+        
         /// <summary>
-        /// Lista de insumos/serviços da cpu
+        /// Relação de insumos da cpu
         /// </summary>
-        public ObservableCollection<IInsumoGeral> Itens { get; set; }
+        [AlsoNotifyFor(nameof(ValorUnitario))]
+        public ObservableCollection<IInsumoGeral> Itens {
+            get => insumos;
+            set
+            {
+                insumos = value;
+                RegistrarMonitoramentoItenCpu(value);
+            }
+
+        }
 
         /// <summary>
         /// Código de referencia de bases auxiliares SINAPI / SEDOP / SEINFRA e etc...
@@ -28,22 +38,37 @@ namespace Licitar
         /// <summary>
         /// Valor uniário do serviço
         /// </summary>
-        public double ValorUnitario { get; }
+        [AlsoNotifyFor(nameof(ValorComBdi))]
+        public double ValorUnitario {
+            get => CalcularValorUnitario();
+            set => value = 1;
+        }
 
         /// <summary>
         /// Quantidade prevista no orçamento
         /// </summary>
+        [AlsoNotifyFor(nameof(ValorTotal))]
         public double Quantidade { get; set; }
 
         /// <summary>
         /// Valor do serviço com BDI
         /// </summary>
-        public double ValorComBdi => Math.Round(ValorUnitario * Bdi.Valor,2);
+        [AlsoNotifyFor(nameof(ValorTotal))]
+        public double ValorComBdi => Math.Round(ValorUnitario * (1 + (Bdi.Valor / 100)), 2);
 
         /// <summary>
         /// BDI definido para o insumo
         /// </summary>
-        public IChaveValue Bdi { get; set; }
+        private IChaveValue bdi;
+        public IChaveValue Bdi
+        {
+            get => bdi;
+            set
+            {
+                bdi = value;
+                bdi.PropertyChanged += Bdi_PropertyChanged;
+            }
+        }
 
         /// <summary>
         /// Código da itemização do orçamento
@@ -63,7 +88,10 @@ namespace Licitar
         /// <summary>
         /// Valor total do item
         /// </summary>
-        public double ValorTotal { get; set; }
+        public double ValorTotal {
+            get => Math.Round(Quantidade * ValorComBdi, 2);
+            set => value = 1;
+        }
 
         /// <summary>
         /// Descrição do serviço
@@ -75,10 +103,47 @@ namespace Licitar
         /// </summary>
         public tipoInsumo Tipo { get; set; } = tipoInsumo.Composicao;
 
+
+        #region Helper functions
+
+        private void RegistrarMonitoramentoItenCpu(ObservableCollection<IInsumoGeral> itens)
+        {
+            foreach (IInsumoGeral item in itens)
+            {
+                item.PropertyChanged += MonitorarMudançaItem;
+            }
+        }
+
+        private void MonitorarMudançaItem(object sender, PropertyChangedEventArgs e)
+        {
+            // Verifica se a mudança vai gerar alteração de valor na CPU
+            if (e.PropertyName == "ValorTotal")
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
+            }
+        }
+
         /// <summary>
-        /// Evento responsável por atualizar o wpf
+        /// Recalcula o valor do serviço com BDI
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Bdi_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            // Atualiza o valor total
+            ValorTotal = Math.Round(ValorComBdi * Quantidade, 2);
+
+            // Invoca os eventos para atualização do layout
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
+        }
+
+        private double CalcularValorUnitario()
+        {
+            return Itens.Sum(x => x.ValorTotal);
+        }
 
         public double ValorTotalLeisSociais()
         {
@@ -87,7 +152,23 @@ namespace Licitar
 
         public double ValorTotalTipo(tipoInsumo tipo)
         {
-            throw new NotImplementedException();
+            return Itens.Where(item => item.Tipo == tipo).Sum(x => x.ValorTotal);
         }
+        #endregion
+
+        #region Eventos
+
+        /// <summary>
+        /// Evento responsável por atualizar o wpf
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged(PropertyChangedEventArgs propriedade)
+        {
+            PropertyChanged?.Invoke(this, propriedade);
+        }
+
+        #endregion
+
     }
 }

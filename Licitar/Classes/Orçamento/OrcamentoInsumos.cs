@@ -31,7 +31,7 @@ namespace Licitar
             }
         }
 
-        [AlsoNotifyFor("ValorTotal")]
+        [AlsoNotifyFor(nameof(ValorTotal))]
         public double ValorUnitario {
             get => valorUnitario;
             set
@@ -44,7 +44,7 @@ namespace Licitar
         /// <summary>
         /// Quantitativo necessário
         /// </summary>
-        [AlsoNotifyFor("ValorTotal")]
+        [AlsoNotifyFor(nameof(ValorTotal))]
         public double Quantidade
         {
             get => quantidade;
@@ -72,8 +72,8 @@ namespace Licitar
             ValorTotal = Math.Round(ValorComBdi * Quantidade, 2);
 
             // Invoca os eventos para atualização do layout
-            OnPropertyChanged(new PropertyChangedEventArgs("ValorComBdi"));
-            OnPropertyChanged(new PropertyChangedEventArgs("ValorTotal"));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
