@@ -11,7 +11,7 @@ namespace Licitar
             switch ((tipoInsumo)value)
             {
                 case tipoInsumo.Composicao:
-                    return "CPU";
+                    return "Composição";
                 case tipoInsumo.MaoDeObra:
                     return "Mão de Obra";
                 case tipoInsumo.Material:
@@ -28,7 +28,7 @@ namespace Licitar
         {
             switch (value)
             {
-                case "CPU":
+                case "Composição":
                     return tipoInsumo.Composicao;
                 case "Mão de Obra":
                     return tipoInsumo.MaoDeObra;

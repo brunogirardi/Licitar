@@ -39,5 +39,15 @@ namespace Licitar
         /// </summary>
         double ValorTotal { get; }
 
+        /// <summary>
+        /// Retorna o valor unitário com leis sociais
+        /// </summary>
+        double ValorUnitarioComLS { get; }
+
+        /// <summary>
+        /// Retorna o valor total com leis sociais
+        /// </summary>
+        double ValorTotalComLS { get; }    
+
     }
 }

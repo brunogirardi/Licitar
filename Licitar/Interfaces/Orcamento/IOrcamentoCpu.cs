@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    interface IOrcamentoCpu : IOrcamentoItens
+    interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais
     {
         /// <summary>
         /// Lista de insumos/serviços da cpu
@@ -45,12 +45,6 @@ namespace Licitar
         /// <param name="tipo">Tipo do Insumo</param>
         /// <returns></returns>
         double ValorTotalTipo(tipoInsumo tipo);
-
-        /// <summary>
-        /// Calcula o valor total das Leis Sociais
-        /// </summary>
-        /// <returns></returns>
-        double ValorTotalLeisSociais();
 
     }
 }

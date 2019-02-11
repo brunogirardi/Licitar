@@ -37,8 +37,6 @@ namespace Licitar
 
             LeisSociais = LoadLeisSociais();
 
-            Orcamento = LoadOrcamento();
-
         }
 
         /// <summary>
@@ -63,55 +61,10 @@ namespace Licitar
         {
             ObservableCollection<IChaveValue> itens = new ObservableCollection<IChaveValue>()
             {
-                new LeisSociais() { Id=1, Descricao="Mensalista", Valor=87.56D },
-                new LeisSociais() { Id=2, Descricao="Horista", Valor=122.56D }
+                new LeisSociais() { Id=1, Descricao="Mensalista", Valor=50D },
+                new LeisSociais() { Id=2, Descricao="Horista", Valor=100D }
             };
             return itens;
-        }
-
-        /// <summary>
-        /// Carrega os insumos disponiveis para o orçamento
-        /// </summary>
-        /// <returns></returns>
-        private OrcamentoLista LoadOrcamento()
-        {
-            ObservableCollection<IOrcamentoItens> itens = new ObservableCollection<IOrcamentoItens>()
-            {
-                new OrcamentoTitulo() { Item ="01", Descrição ="PRIMEIRO NIVEL", Tipo =tipoInsumo.Titulo, Sequencia = 1 },
-                new OrcamentoTitulo() { Item ="01.01", Descrição ="PRIMEIRO NIVEL", Tipo =tipoInsumo.Titulo, Sequencia = 1, ObjetoPai=0 },
-                new OrcamentoTitulo() { Item ="01.01.01", Descrição ="SEGUNDO NIVEL", Tipo =tipoInsumo.Titulo, Sequencia = 1, ObjetoPai=1 },
-                new OrcamentoInsumos() { Item="01.01.01.01", Bdi=Bdis[0], CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=2 },
-                new OrcamentoInsumos() { Item="01.01.01.02", Bdi=Bdis[0], CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=2 },
-                new OrcamentoInsumos() { Item="01.01.01.03", Bdi=Bdis[0], CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=2 },
-                new OrcamentoInsumos() { Item="01.01.01.04", Bdi=Bdis[0], CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=2 },
-                new OrcamentoTitulo() { Item ="01.02", Descrição ="PRIMEIRO NIVEL", Tipo =tipoInsumo.Titulo, Sequencia = 1, ObjetoPai=0 },
-                new OrcamentoTitulo() { Item ="01.02.01", Descrição ="SEGUNDO NIVEL", Tipo =tipoInsumo.Titulo, Sequencia = 1, ObjetoPai=7 },
-                new OrcamentoInsumos() { Item="01.02.01.01", Bdi=Bdis[0], CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
-                new OrcamentoInsumos() { Item="01.02.01.02", Bdi=Bdis[0], CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
-                new OrcamentoInsumos() { Item="01.02.01.03", Bdi=Bdis[0], CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
-                new OrcamentoInsumos() { Item="01.02.01.04", Bdi=Bdis[0], CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=1D , Sequencia=2, Quantidade=1, ObjetoPai=8 },
-                new OrcamentoCpu() {
-                    Item = "01.02.01.05",
-                    Bdi = Bdis[0],
-                    CodigoRef = 157,
-                    Descrição = "CONCRETO USINADO FCK=35MPA",
-                    Unidade= "M3",
-                    Sequencia = 2,
-                    Quantidade = 1,
-                    ObjetoPai = 8,
-                    Itens = new ObservableCollection<IInsumoGeral>()
-                    {
-                        new InsumoGeral() { CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=27.45D , Quantidade=7 },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.8D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="BRITA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=32D , Quantidade=.6D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=3D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1.5D }
-                    }
-                },
-
-            };
-
-            return new OrcamentoLista(itens);
         }
 
     }

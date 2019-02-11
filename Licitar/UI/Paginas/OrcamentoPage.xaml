@@ -33,7 +33,7 @@
                 <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" />
                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade}" />
-                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitario}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
                 <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
             </DataGrid.Columns>
@@ -137,13 +137,13 @@
                         <TextBlock Text="Relação de Itens da Composição" />
                         <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding CodigoRef}"  Header="Código" Width="80" />
-                                <DataGridTextColumn Binding="{Binding Descrição}" Header="Descrição do Insumo / Serviço" Width="*" />
-                                <DataGridTextColumn Binding="{Binding Unidade}" Header="Unidade" Width="70" />
-                                <DataGridTextColumn Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" Header="Tipo" Width="80" />
+                                <DataGridTextColumn Binding="{Binding CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
+                                <DataGridTextColumn Binding="{Binding Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
+                                <DataGridTextColumn Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
                                 <DataGridTextColumn Binding="{Binding Quantidade}" Header="Quantidade" Width="90" />
-                                <DataGridTextColumn Binding="{Binding ValorUnitario}" Header="Valor Unit." Width="90" />
-                                <DataGridTextColumn Binding="{Binding ValorTotal}" Header="Valor Total" Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorUnitarioComLS}" IsReadOnly="True" Header="Valor Unit." Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorTotalComLS}" IsReadOnly="True" Header="Valor Total" Width="90" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

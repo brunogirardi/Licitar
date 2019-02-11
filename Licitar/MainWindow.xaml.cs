@@ -37,7 +37,7 @@ namespace Licitar
 
             InitializeComponent();
 
-            Provider provider = new Provider();
+            Provider provider = Factory.AccessoAppProvider;
 
             OrcamentoPage frame = new OrcamentoPage(provider);
 

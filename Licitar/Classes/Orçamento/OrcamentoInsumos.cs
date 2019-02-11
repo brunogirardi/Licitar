@@ -64,7 +64,11 @@ namespace Licitar
 
         public int? ObjetoPai { get; set; }
 
-        public double ValorComBdi => Math.Round(ValorUnitario * (1 + (Bdi.Valor / 100)), 2);
+        public double ValorComBdi => Math.Round(ValorTotalComLs * (1 + (Bdi.Valor / 100)), 2);
+
+        public double ValorUnitarioComLs => CalcularLeisSociais.Calcular(valorUnitario, Unidade, Tipo);
+
+        public double ValorTotalComLs => CalcularLeisSociais.Calcular(valorUnitario, Unidade, Tipo);
 
         private void Bdi_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {

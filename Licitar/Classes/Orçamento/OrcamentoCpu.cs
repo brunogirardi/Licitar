@@ -8,6 +8,8 @@ namespace Licitar
 {
     class OrcamentoCpu : IOrcamentoCpu
     {
+        
+        #region Prodriedades
 
         private ObservableCollection<IInsumoGeral> insumos;
         
@@ -103,6 +105,11 @@ namespace Licitar
         /// </summary>
         public tipoInsumo Tipo { get; set; } = tipoInsumo.Composicao;
 
+        public double ValorUnitarioComLs => ValorUnitario;
+
+        public double ValorTotalComLs => ValorTotal;
+
+        #endregion
 
         #region Helper functions
 
@@ -142,12 +149,7 @@ namespace Licitar
 
         private double CalcularValorUnitario()
         {
-            return Itens.Sum(x => x.ValorTotal);
-        }
-
-        public double ValorTotalLeisSociais()
-        {
-            throw new NotImplementedException();
+            return Itens.Sum(x => CalcularLeisSociais.Calcular(x));
         }
 
         public double ValorTotalTipo(tipoInsumo tipo)

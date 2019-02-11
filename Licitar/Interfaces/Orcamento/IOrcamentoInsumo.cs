@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    public interface IOrcamentoInsumo : IOrcamentoItens, INotifyPropertyChanged
+    interface IOrcamentoInsumo : IOrcamentoItens, INotifyPropertyChanged, IValorComLeisSociais
     {
 
         int CodigoRef { get; set; }
@@ -13,9 +13,9 @@ namespace Licitar
 
         double Quantidade { get; set; }
 
-        double ValorComBdi { get; }
-
         IChaveValue Bdi { get; set; }
+
+        double ValorComBdi { get; }
 
     }
 }

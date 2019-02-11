@@ -8,6 +8,8 @@ namespace Licitar
 {
     class CpuGeral : ICpuGeral
     {
+        #region Propriedades
+
         /// <summary>
         /// Código referencia a base original da CPU
         /// </summary>
@@ -38,7 +40,7 @@ namespace Licitar
         /// Valor unitário do serviço
         /// </summary>
         [AlsoNotifyFor(nameof(ValorTotal))]
-        public double ValorUnitario => Itens.Sum(x => x.ValorTotal);
+        public double ValorUnitario => Itens.Sum(x => CalcularLeisSociais.Calcular(x));
 
         /// <summary>
         /// Valor total do serviço
@@ -70,6 +72,20 @@ namespace Licitar
         }
 
         /// <summary>
+        /// Retorna o valor unitário com o acréscimo de leis sociais
+        /// </summary>
+        public double ValorUnitarioComLS => CalcularLeisSociais.Calcular(ValorUnitario, Unidade, Tipo);
+
+        /// <summary>
+        /// Retorna o valor total com o acréscimo de leis sociais
+        /// </summary>
+        public double ValorTotalComLS => CalcularLeisSociais.Calcular(ValorTotal, Unidade, Tipo);
+
+        #endregion
+
+        #region Metodos auxiliares
+
+        /// <summary>
         /// Função responsável por disparar o gatilho para atualizar o valor total da cpu  
         /// </summary>
         /// <param name="sender">Objeto</param>
@@ -81,6 +97,8 @@ namespace Licitar
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
             }
         }
+
+        #endregion
 
         #region Evento PropertyChanged
 
