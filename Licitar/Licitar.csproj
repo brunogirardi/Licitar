@@ -38,14 +38,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ControlzEx, Version=3.0.2.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\ControlzEx.dll</HintPath>
+    </Reference>
     <Reference Include="CurrencyTextBoxControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CurrencyTextBox.1.4.3\lib\CurrencyTextBoxControl.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.4.2\lib\net45\ExcelDataReader.dll</HintPath>
+    </Reference>
+    <Reference Include="Fluent, Version=6.1.0.326, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fluent.Ribbon.6.1.0.326\lib\net45\Fluent.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.Sharp, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.Sharp.5.2.0\lib\net40\FontAwesome.Sharp.dll</HintPath>
     </Reference>
     <Reference Include="PropertyChanged, Version=2.6.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.2.6.0\lib\net452\PropertyChanged.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Windows.Controls.Ribbon" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\ControlzEx.3.0.2.4\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -64,9 +83,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UI\Paginas\BaseInsumosPage.xaml.cs">
+      <DependentUpon>BaseInsumosPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Base\CalcularLeisSociais.cs" />
     <Compile Include="Classes\Base\CpuGeral.cs" />
     <Compile Include="Classes\Base\InsumoGeral.cs" />
+    <Compile Include="Classes\Importaçao\ImportarExcel.cs" />
+    <Compile Include="Enum\PageSystem.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Interfaces\Geral\IChaveValue.cs" />
     <Compile Include="Interfaces\Geral\ICpuGeral.cs" />
@@ -80,6 +104,10 @@
     <Compile Include="Classes\Orçamento\OrcamentoLista.cs" />
     <Compile Include="Interfaces\Orcamento\IValorComLeisSociais.cs" />
     <Compile Include="Provider.cs" />
+    <Page Include="UI\Paginas\BaseInsumosPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -101,6 +129,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\Converters\PageDisplayConverter.cs" />
     <Compile Include="UI\Converters\TipoInsumoConverter.cs" />
     <Compile Include="UI\Paginas\OrcamentoPage.xaml.cs">
       <DependentUpon>OrcamentoPage.xaml</DependentUpon>

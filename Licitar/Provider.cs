@@ -28,6 +28,8 @@ namespace Licitar
 
         public ObservableCollection<IChaveValue> LeisSociais { get; set; }
 
+        public ObservableCollection<IInsumoGeral> Insumos { get; set; } = new ObservableCollection<IInsumoGeral>();
+
         public OrcamentoLista Orcamento { get; set; }
 
         public Provider()

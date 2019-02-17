@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    interface ICpuGeral : IInsumoGeral
+    public interface ICpuGeral : IInsumoGeral
     {
 
         /// <summary>

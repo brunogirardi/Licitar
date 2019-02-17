@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    interface IInsumoGeral : INotifyPropertyChanged
+    public interface IInsumoGeral : INotifyPropertyChanged
     {
         /// <summary>
         /// Código de referencia de bases auxiliares SINAPI / SEDOP / SEINFRA e etc...

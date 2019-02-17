@@ -23,7 +23,7 @@
             x:Name="listInsumos"
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch" 
-            Margin="0,30,0,255" 
+            Margin="0,0,0,255" 
             AutoGenerateColumns="False" Grid.RowSpan="2">
 
             <DataGrid.Columns>
@@ -164,8 +164,6 @@
             </TabItem>
 
         </TabControl>
-        <Button x:Name="cmdAdicionaItem" Content="Adicionar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" Click="CmdAdicionaItem_Click"/>
-        <Button Content="Remover" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Height="25" Margin="105,0,0,0"/>
     </Grid>
 
 </Page>

@@ -78,6 +78,7 @@ namespace Licitar
             // Invoca os eventos para atualização do layout
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

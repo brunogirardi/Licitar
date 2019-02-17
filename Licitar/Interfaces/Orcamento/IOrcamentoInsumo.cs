@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    interface IOrcamentoInsumo : IOrcamentoItens, INotifyPropertyChanged, IValorComLeisSociais
+    public interface IOrcamentoInsumo : IOrcamentoItens, INotifyPropertyChanged, IValorComLeisSociais
     {
 
         int CodigoRef { get; set; }

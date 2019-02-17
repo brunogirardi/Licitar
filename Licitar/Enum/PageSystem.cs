@@ -6,13 +6,9 @@ using System.Threading.Tasks;
 
 namespace Licitar
 {
-    public interface IValorComLeisSociais
-
+    public enum PageSystem
     {
-
-        double ValorUnitarioComLs { get; }
-
-        double ValorTotalComLs { get; }
-
+        Orcamento,
+        BaseDados
     }
 }

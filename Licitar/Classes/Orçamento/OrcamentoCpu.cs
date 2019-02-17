@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Licitar
 {
-    class OrcamentoCpu : IOrcamentoCpu
+    public class OrcamentoCpu : IOrcamentoCpu
     {
         
         #region Prodriedades
@@ -128,6 +128,7 @@ namespace Licitar
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLs)));
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
             }
         }

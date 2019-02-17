@@ -4,13 +4,53 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Licitar"
+        xmlns:Fluent="urn:fluent-ribbon"
+        xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
         Title="MainWindow" Height="1000" Width="1500">
+
+    <Window.Resources>
+        <local:PageDisplayConverter x:Key="PageDisplayConverter" />
+    </Window.Resources>
+    
     <Grid>
-        <!-- Botões -->
-        <Grid VerticalAlignment="Top" HorizontalAlignment="Stretch" Height="65"/>
+            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Fluent:Ribbon Grid.Row="0" HorizontalAlignment="Stretch">
+            <!--Backstage-->
+            <Fluent:Ribbon.Menu>
+                <Fluent:Backstage Header="Arquivo" />
+            </Fluent:Ribbon.Menu>
+
+            <!--Tabs-->
+            <Fluent:RibbonTabItem Header="Orçamento">
+                <Fluent:RibbonGroupBox Header="Navegação">
+                    <Fluent:Button Header="Orçamento" LargeIcon="{fa:IconSource Bars}"
+                                   Click="Orcamento_Click"/>
+                    <Fluent:Button Header="Insumos" LargeIcon="{fa:IconSource Database}"
+                                   Click="BaseInsumos_Click"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
+            <Fluent:RibbonTabItem Header="Referências">
+                <Fluent:RibbonGroupBox Header="Navegação">
+                    <Fluent:Button Header="Opções" LargeIcon="{fa:IconSource Cogs}"/>
+                    <Fluent:Button Header="Importar" LargeIcon="{fa:IconSource FileImport}" Click="Importar_Click"/>
+                </Fluent:RibbonGroupBox>
+            </Fluent:RibbonTabItem>
+
+        </Fluent:Ribbon>
+            
         <!-- Mostra o conteúdo -->
-        <Frame x:Name="Conteudo" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="5,70,5,5" />
+        <Frame x:Name="Conteudo" 
+               VerticalAlignment="Stretch" 
+               HorizontalAlignment="Stretch" 
+               Grid.Row="1" 
+               Margin="7"/>
         
     </Grid>
 </Window>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Licitar
 {
-    static class CalcularLeisSociais
+    public static class CalcularLeisSociais
     {
 
         /// <summary>

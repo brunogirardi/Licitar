@@ -20,6 +20,8 @@ namespace Licitar
                     return "Outros";
                 case tipoInsumo.Titulo:
                     return "Titulo";
+                case tipoInsumo.Indefinido:
+                    return "Indefinido";
             }
             return "Material";
         }
@@ -38,6 +40,8 @@ namespace Licitar
                     return tipoInsumo.Outros;
                 case "Titulo":
                     return tipoInsumo.Titulo;
+                case "Indefinido":
+                    return tipoInsumo.Indefinido;
             }
             return tipoInsumo.Material;
         }

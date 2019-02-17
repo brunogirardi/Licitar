@@ -32,6 +32,11 @@ namespace Licitar
         /// </summary>
         public ObservableCollection<IChaveValue> leiSociais;
 
+        /// <summary>
+        /// Relação de lei sociais disponiveis para o orçamento
+        /// </summary>
+        public List<Page> Pages;
+
         public MainWindow()
         {
 
@@ -39,10 +44,30 @@ namespace Licitar
 
             Provider provider = Factory.AccessoAppProvider;
 
-            OrcamentoPage frame = new OrcamentoPage(provider);
+            Pages = new List<Page>();
 
-            Conteudo.Content = frame;
+            Pages.Add(new OrcamentoPage(provider));
+            Pages.Add(new BaseInsumosPage());
 
+            Conteudo.Content = Pages[1];
+
+        }
+
+        private void Importar_Click(object sender, RoutedEventArgs e)
+        {
+            Factory.AccessoAppProvider.Insumos = ImportarExcel.CarregarInsumos();
+
+            ((BaseInsumosPage)Pages[1]).listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+        }
+
+        private void BaseInsumos_Click(object sender, RoutedEventArgs e)
+        {
+            Conteudo.Content = Pages[1];
+        }
+
+        private void Orcamento_Click(object sender, RoutedEventArgs e)
+        {
+            Conteudo.Content = Pages[0];
         }
     }
 }

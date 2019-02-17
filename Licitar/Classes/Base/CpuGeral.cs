@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Licitar
 {
-    class CpuGeral : ICpuGeral
+    public class CpuGeral : ICpuGeral
     {
         #region Propriedades
 

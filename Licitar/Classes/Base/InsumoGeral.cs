@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace Licitar
 {
-    class InsumoGeral : IInsumoGeral
+    public class InsumoGeral : IInsumoGeral
     {
         /// <summary>
         /// Código de referencia a bases publicas

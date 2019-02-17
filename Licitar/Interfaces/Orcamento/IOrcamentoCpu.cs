@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais
+    public interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais
     {
         /// <summary>
         /// Lista de insumos/serviços da cpu

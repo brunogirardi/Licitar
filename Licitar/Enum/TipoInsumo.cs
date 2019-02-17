@@ -11,6 +11,7 @@ namespace Licitar
         Material,
         MaoDeObra,
         Outros,
-        Titulo
+        Titulo,
+        Indefinido
     }
 }

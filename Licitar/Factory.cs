@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Licitar
 {
-    class Factory
+    public class Factory
     {
 
         /// <summary>
