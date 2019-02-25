@@ -4,10 +4,16 @@ namespace Licitar
 {
     public interface IInsumoGeral : INotifyPropertyChanged
     {
+
+        /// <summary>
+        /// Recebe a id proveniente do banco de dados
+        /// </summary>
+        int Id { get; set; }
+        
         /// <summary>
         /// Código de referencia de bases auxiliares SINAPI / SEDOP / SEINFRA e etc...
         /// </summary>
-        int CodigoRef { get; set; }
+        string CodigoRef { get; set; }
 
         /// <summary>
         /// Descrição do serviço

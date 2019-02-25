@@ -16,8 +16,10 @@ namespace Licitar
                     return "Mão de Obra";
                 case tipoInsumo.Material:
                     return "Material";
-                case tipoInsumo.Outros:
-                    return "Outros";
+                case tipoInsumo.Equipamentos:
+                    return "Equipamentos";
+                case tipoInsumo.Verbas:
+                    return "Verbas";
                 case tipoInsumo.Titulo:
                     return "Titulo";
                 case tipoInsumo.Indefinido:
@@ -36,8 +38,10 @@ namespace Licitar
                     return tipoInsumo.MaoDeObra;
                 case "Material":
                     return tipoInsumo.Material;
-                case "Outros":
-                    return tipoInsumo.Outros;
+                case "Equipamentos":
+                    return tipoInsumo.Equipamentos;
+                case "Verbas":
+                    return tipoInsumo.Verbas;
                 case "Titulo":
                     return tipoInsumo.Titulo;
                 case "Indefinido":

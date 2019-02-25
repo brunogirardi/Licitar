@@ -25,6 +25,8 @@ namespace Licitar
             InitializeComponent();
 
             listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+
+            listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
         }
 
         /// <summary>
@@ -35,6 +37,11 @@ namespace Licitar
         private void Insumos_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+        }
+
+        private void ListaComposicoes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ((CpuGeral)e.AddedItems[0]).Itens = 
         }
     }
 }

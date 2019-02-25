@@ -10,7 +10,7 @@
         Title="MainWindow" Height="1000" Width="1500">
 
     <Window.Resources>
-        <local:PageDisplayConverter x:Key="PageDisplayConverter" />
+        <local:PageDisplayConverter x:Key="PageDisplayConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -34,12 +34,29 @@
                     <Fluent:Button Header="Insumos" LargeIcon="{fa:IconSource Database}"
                                    Click="BaseInsumos_Click"/>
                 </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Titulos">
+                    <Fluent:Button Header="Incluir" LargeIcon="{fa:IconSource PlusSquare}" />
+                    <Fluent:Button Header="Deletar" LargeIcon="{fa:IconSource MinusSquare}" />
+                    <Fluent:Button Header="Avançar Nivel" LargeIcon="{fa:IconSource ArrowAltCircleRight}" />
+                    <Fluent:Button Header="Recuar Nivel" LargeIcon="{fa:IconSource ArrowAltCircleLeft}" />
+                    <Fluent:Button Header="Editar" LargeIcon="{fa:IconSource PenSquare}" />
+                    <Fluent:Button Header="Mover" LargeIcon="{fa:IconSource ExpandArrowsAlt}" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Insumos / Serviços">
+                    <Fluent:Button Header="Incluir" LargeIcon="{fa:IconSource PlusSquare}" />
+                    <Fluent:Button Header="Deletar" LargeIcon="{fa:IconSource MinusSquare}" />
+                    <Fluent:Button Header="Editar" LargeIcon="{fa:IconSource PenSquare}" />
+                </Fluent:RibbonGroupBox>
+                <Fluent:RibbonGroupBox Header="Modo de Exibição">
+
+                </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+            
 
             <Fluent:RibbonTabItem Header="Referências">
-                <Fluent:RibbonGroupBox Header="Navegação">
-                    <Fluent:Button Header="Opções" LargeIcon="{fa:IconSource Cogs}"/>
-                    <Fluent:Button Header="Importar" LargeIcon="{fa:IconSource FileImport}" Click="Importar_Click"/>
+                <Fluent:RibbonGroupBox Header="Importar">
+                    <Fluent:Button Header="Composições" LargeIcon="{fa:IconSource FileImport}" Click="ImportarComposicoes_Click" />
+                    <Fluent:Button Header="Insumos" LargeIcon="{fa:IconSource FileImport}" Click="ImportarInsumos_Click" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
 
@@ -50,7 +67,7 @@
                VerticalAlignment="Stretch" 
                HorizontalAlignment="Stretch" 
                Grid.Row="1" 
-               Margin="7"/>
+               Margin="7" />
         
     </Grid>
 </Window>

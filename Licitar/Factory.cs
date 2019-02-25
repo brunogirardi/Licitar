@@ -21,5 +21,10 @@ namespace Licitar
         /// </summary>
         public static ObservableCollection<IChaveValue> Bdis { get => ((App)Application.Current).provider.Bdis; }
 
+        /// <summary>
+        /// Acesso ao banco de dados do sistema
+        /// </summary>
+        public static MysqlDataAccess DBAcesso { get => new MysqlDataAccess(); }
+
     }
 }

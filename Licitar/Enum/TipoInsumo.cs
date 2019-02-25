@@ -10,8 +10,9 @@ namespace Licitar
         Composicao,
         Material,
         MaoDeObra,
-        Outros,
+        Equipamentos,
+        Verbas,
+        Indefinido,
         Titulo,
-        Indefinido
     }
 }

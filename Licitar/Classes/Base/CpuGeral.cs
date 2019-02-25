@@ -8,12 +8,23 @@ namespace Licitar
 {
     public class CpuGeral : ICpuGeral
     {
+
+        public CpuGeral()
+        {
+            itens = new ObservableCollection<IInsumoGeral>();
+        }
+
         #region Propriedades
+
+        /// <summary>
+        /// Código referencia ao banco de dados
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// Código referencia a base original da CPU
         /// </summary>
-        public int CodigoRef { get; set; }
+        public string CodigoRef { get; set; }
 
         /// <summary>
         /// Descrição do serviço
@@ -39,8 +50,21 @@ namespace Licitar
         /// <summary>
         /// Valor unitário do serviço
         /// </summary>
+        private double valorUnitario;
         [AlsoNotifyFor(nameof(ValorTotal))]
-        public double ValorUnitario => Itens.Sum(x => CalcularLeisSociais.Calcular(x));
+        public double ValorUnitario
+        {
+            get {
+                if (itens.Count() > 0)
+                {
+                    return Itens.Sum(x => CalcularLeisSociais.Calcular(x));
+                } else
+                {
+                    return valorUnitario;
+                }
+            }
+            set => valorUnitario = value;
+        }
 
         /// <summary>
         /// Valor total do serviço

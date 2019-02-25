@@ -37,6 +37,8 @@ namespace Licitar
         /// </summary>
         public List<Page> Pages;
 
+        public PageSystem CurrentPage { get; set; } = PageSystem.Orcamento;
+
         public MainWindow()
         {
 
@@ -53,21 +55,31 @@ namespace Licitar
 
         }
 
-        private void Importar_Click(object sender, RoutedEventArgs e)
+        private void ImportarInsumos_Click(object sender, RoutedEventArgs e)
         {
+
             Factory.AccessoAppProvider.Insumos = ImportarExcel.CarregarInsumos();
 
             ((BaseInsumosPage)Pages[1]).listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
         }
 
+        private void ImportarComposicoes_Click(object sender, RoutedEventArgs e)
+        {
+            ImportarCsv.CarregarComposicoes();
+
+            ((BaseInsumosPage)Pages[1]).listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
+        }
+
         private void BaseInsumos_Click(object sender, RoutedEventArgs e)
         {
             Conteudo.Content = Pages[1];
+            // CurrentPage = PageSystem.BaseDados;
         }
 
         private void Orcamento_Click(object sender, RoutedEventArgs e)
         {
             Conteudo.Content = Pages[0];
+            // CurrentPage = PageSystem.Orcamento;
         }
     }
 }

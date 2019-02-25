@@ -30,6 +30,8 @@ namespace Licitar
 
         public ObservableCollection<IInsumoGeral> Insumos { get; set; } = new ObservableCollection<IInsumoGeral>();
 
+        public ObservableCollection<IInsumoGeral> Composicoes { get; set; } = new ObservableCollection<IInsumoGeral>();
+
         public OrcamentoLista Orcamento { get; set; }
 
         public Provider()

@@ -7,10 +7,16 @@ namespace Licitar
 {
     public class InsumoGeral : IInsumoGeral
     {
+
+        /// <summary>
+        /// Codigo de referencia ao banco de dados
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Código de referencia a bases publicas
         /// </summary>
-        public int CodigoRef { get; set; }
+        public string CodigoRef { get; set; }
 
         /// <summary>
         /// Descrição do insumo / serviço
@@ -47,6 +53,7 @@ namespace Licitar
         /// Retorna o valor total com o acréscimo de leis sociais
         /// </summary>
         public double ValorTotalComLS => CalcularLeisSociais.Calcular(ValorTotal, Unidade, Tipo);
+
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

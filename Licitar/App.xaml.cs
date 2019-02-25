@@ -47,15 +47,21 @@ namespace Licitar
                     ObjetoPai = 8,
                     Itens = new ObservableCollection<IInsumoGeral>()
                     {
-                        new InsumoGeral() { CodigoRef= 154, Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=5D , Quantidade=7 },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=10D , Quantidade=1D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="BRITA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=5D , Quantidade=1D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="SERVENTE", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1D },
-                        new InsumoGeral() { CodigoRef= 154, Descrição="PEDREIRO", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1D }
+                        new InsumoGeral() { CodigoRef="154", Descrição="CIMENTO PORTLAND CP-II 32 MPA", Tipo = tipoInsumo.Material, Unidade="SC", ValorUnitario=5D , Quantidade=7 },
+                        new InsumoGeral() { CodigoRef="154", Descrição="AREIA MÉDIA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=10D , Quantidade=1D },
+                        new InsumoGeral() { CodigoRef="154", Descrição="BRITA", Tipo = tipoInsumo.Material, Unidade="M3", ValorUnitario=5D , Quantidade=1D },
+                        new InsumoGeral() { CodigoRef="154", Descrição="SERVENTE", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1D },
+                        new InsumoGeral() { CodigoRef="154", Descrição="PEDREIRO", Tipo = tipoInsumo.MaoDeObra, Unidade="H", ValorUnitario=1D , Quantidade=1D }
                     }
                 },
 
+
             };
+
+            // Carrega a lista de insumos
+            provider.Insumos = MysqlDataAccess.InsumosListar();
+
+            provider.Composicoes = MysqlDataAccess.ComposiçãoListar();
 
             provider.Orcamento = new OrcamentoLista(itens);
         }
