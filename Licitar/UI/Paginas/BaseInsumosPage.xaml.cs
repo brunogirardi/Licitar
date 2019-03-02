@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,13 +22,26 @@ namespace Licitar
     /// </summary>
     public partial class BaseInsumosPage : Page
     {
+
+        private ObservableCollection<IInsumoGeral> Insumos;
+
+        private ObservableCollection<ICpuGeral> Composicoes;
+
+        private ObservableCollection<BaseReferencia> Bases;
+
+        private ObservableCollection<BaseReferenciaDataBase> Datas;
+
         public BaseInsumosPage()
         {
             InitializeComponent();
 
-            listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+            Bases = Factory.DBAcesso.BaseRefLista();
 
-            listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
+            cbBaseReferencia.ItemsSource = Bases;
+
+
+            listaInsumos.ItemsSource = Insumos;
+
         }
 
         /// <summary>
@@ -41,7 +56,46 @@ namespace Licitar
 
         private void ListaComposicoes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ((CpuGeral)e.AddedItems[0]).Itens = 
+
+            ICpuGeral selecao = e.AddedItems[0] as ICpuGeral;
+
+            // Verifica se a composição já foi preenchida com os itens
+            if (selecao.Itens.Count() == 0)
+            {
+                foreach (var item in Factory.DBAcesso.ComposiçãoListarItens(selecao.Id))
+                {
+                    selecao.Itens.Add(item);
+                }
+            }
+
+        }
+
+        private void CbBaseReferencia_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BaseReferencia item = e.AddedItems[0] as BaseReferencia;
+
+            Datas = Factory.DBAcesso.DataBaseDePrecoLista(item.idBaseReferencia);
+
+            cbDataBase.ItemsSource = Datas;
+        }
+
+        private void CmdCarregarBase_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbDataBase.SelectedItem != null)
+            {
+                BaseReferenciaDataBase item = cbDataBase.SelectedItem as BaseReferenciaDataBase;
+
+                // Carrega os insumos
+                Insumos = Factory.DBAcesso.InsumosListar(item.idRefPrecoBase);
+
+                listaInsumos.ItemsSource = Insumos;
+
+                // Carrega as composições
+
+                listaComposicoes.ItemsSource = Factory.DBAcesso.ComposiçãoListar(item.idRefPrecoBase);
+
+
+            }
         }
     }
 }

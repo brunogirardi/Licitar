@@ -21,9 +21,9 @@ namespace Licitar
     public partial class OrcamentoPage : Page
     {
 
-        private Provider _provider;
+        private OrcamentoManager _provider;
 
-        public OrcamentoPage(Provider provider)
+        public OrcamentoPage(OrcamentoManager provider)
         {
             InitializeComponent();
 

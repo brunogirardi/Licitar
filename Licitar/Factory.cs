@@ -9,17 +9,17 @@ namespace Licitar
         /// <summary>
         /// Expõe o provider principal
         /// </summary>
-        public static Provider AccessoAppProvider { get => ((App)Application.Current).provider; }
+        public static OrcamentoManager AccessoAppProvider { get => ((App)Application.Current).provider; }
 
         /// <summary>
         /// Acesso a lista de Leis Sociais
         /// </summary>
-        public static ObservableCollection<IChaveValue> LeisSociais { get => ((App)Application.Current).provider.LeisSociais; }
+        public static ObservableCollection<LeisSociais> LeisSociais { get => ((App)Application.Current).provider.LeisSociais; }
 
         /// <summary>
         /// Acesso a lista de bonificações
         /// </summary>
-        public static ObservableCollection<IChaveValue> Bdis { get => ((App)Application.Current).provider.Bdis; }
+        public static ObservableCollection<Bdi> Bdis { get => ((App)Application.Current).provider.Bdis; }
 
         /// <summary>
         /// Acesso ao banco de dados do sistema

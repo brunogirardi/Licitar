@@ -44,7 +44,7 @@ namespace Licitar
 
             InitializeComponent();
 
-            Provider provider = Factory.AccessoAppProvider;
+            OrcamentoManager provider = Factory.AccessoAppProvider;
 
             Pages = new List<Page>();
 

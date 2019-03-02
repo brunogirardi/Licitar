@@ -57,7 +57,7 @@ namespace Licitar
                     }
 
                     // Salva na tabela de insumo o titulo das composições
-                    MysqlDataAccess.InsumoSaveList(cpus);
+                    Factory.DBAcesso.InsumoSaveList(cpus);
 
                     // Reinicia o contador para iniciar o processamento dos itens da composição
                     Reader.BaseStream.Position = 0;
@@ -91,7 +91,7 @@ namespace Licitar
                         if (contador >= 3000)
                         {
                             // Salva os coeficientes no banco de dados
-                            MysqlDataAccess.ComposiçãoItensListSave(itens);
+                            Factory.DBAcesso.ComposiçãoItensListSave(itens);
 
                             // Zera o contador
                             contador = 0;
@@ -103,11 +103,7 @@ namespace Licitar
                         contador += 1;
                     }
 
-                    // Atualiza a lista de Composições
-                    Factory.AccessoAppProvider.Composicoes = cpus;
-
                 }
-
 
             }
         }

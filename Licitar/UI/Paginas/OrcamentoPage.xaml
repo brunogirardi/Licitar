@@ -12,34 +12,60 @@
     <Page.Resources>
         <local:TipoInsumoConverter x:Key="TipoInsumoConverter" />
     </Page.Resources>
-    
+
     <!-- Orçamento -->
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="53*"/>
-            <RowDefinition Height="72*"/>
-        </Grid.RowDefinitions>
-        <DataGrid
-            x:Name="listInsumos"
-            VerticalAlignment="Stretch" 
-            HorizontalAlignment="Stretch" 
-            Margin="0,0,0,255" 
-            AutoGenerateColumns="False" Grid.RowSpan="2">
+        <!-- Selecionar Orçamento -->
+        <Grid Margin="0,5,0,5">
+            <TextBlock Text="Código" Height="20" VerticalAlignment="Top"/>
+            <TextBox Height="26" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" />
+            <Button Content="Buscar" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="105,20,0,0" Height="26" Width="65" />
+        </Grid>
 
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Item}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" />
-                <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade}" />
-                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
-                <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Listas -->
+        <TabControl Margin="0,60,0,255">
 
-        <!-- Configurações -->
+            <!-- Orçamento -->
+            <TabItem Header="Orçamento">
+                <Grid Margin="5,5,5,5">
+
+                    <DataGrid x:Name="listInsumos"
+                              VerticalAlignment="Stretch" 
+                              HorizontalAlignment="Stretch" 
+                              AutoGenerateColumns="False">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Item}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" />
+                            <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade}" />
+                            <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. Unit. Venda" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. Total Venda" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </TabItem>
+
+            <!-- Relação de Insumos -->
+            <TabItem Header="Relação de Insumos">
+
+            </TabItem>
+
+            <!-- Relaçao de Composições -->
+            <TabItem Header="Relação de Composições">
+
+            </TabItem>
+
+        </TabControl>
+
+
+        <!-- Informações Gerais -->
         <TabControl VerticalAlignment="Bottom" x:Name="Detalhes" Height="250" Grid.Row="1" >
 
             <!-- Configurações da Licitação -->
@@ -61,20 +87,25 @@
                         <TextBox Height="24" VerticalAlignment="Top" Margin="0,70,310,0" Text="{Binding LocalLicitacao}" />
 
                         <TextBlock Text="Documento de Referência" Margin="285,50,150,0" Height="20" VerticalAlignment="Top"/>
-                        <TextBox Height="24" VerticalAlignment="Top" Margin="285,70,127,0" Text="{Binding DocumentoRefLicitacao}" />
+                        <TextBox Height="24" VerticalAlignment="Top" Margin="285,70,127,0" Text="{Binding NumeroLicitacao}" />
 
                         <TextBlock Text="Data de Abertura" Margin="468,50,0,0" Height="20" VerticalAlignment="Top"/>
-                        <DatePicker Height="24" VerticalAlignment="Top" Margin="468,70,0,0" DisplayDate="{Binding AberturaProposta}" />
+                        <DatePicker Height="24" VerticalAlignment="Top" Margin="468,70,0,0" SelectedDate="{Binding DataAbertura}" />
 
                         <TextBlock Text="Empresa" Height="20" VerticalAlignment="Top" Margin="0,97,0,0"/>
-                        <TextBox Height="24" Margin="0,117,0,0" VerticalAlignment="Top" Text="{Binding Empresa}" />
+                        <TextBox Height="24" Margin="0,117,200,0" VerticalAlignment="Top" Text="{Binding EmpresaNome}" />
 
-                        <TextBlock Text="Representante Legal" Margin="0,143,200,0" Height="20" VerticalAlignment="Top"/>
-                        <TextBox Height="24" VerticalAlignment="Top" Margin="0,163,200,0" Text="{Binding RepresentanteLegal}" />
+                        <TextBlock Text="CNPJ" Margin="395,97,0,0" Height="20" VerticalAlignment="Top"/>
+                        <TextBox Height="24" VerticalAlignment="Top" Margin="395,117,0,0" Text="{Binding EmpresaCnpj}" />
 
-                        <TextBlock Text="CNPJ" Margin="395,143,0,0" Height="20" VerticalAlignment="Top"/>
-                        <TextBox Height="24" VerticalAlignment="Top" Margin="395,163,0,0" Text="{Binding Cnpj}" />
+                        <TextBlock Text="Representante Legal" Margin="0,143,266,0" Height="20" VerticalAlignment="Top"/>
+                        <TextBox Height="24" VerticalAlignment="Top" Margin="0,163,266,0" Text="{Binding RepresentanteLegalNome}" />
 
+                        <TextBlock Text="CREA" Margin="329,143,178,0" Height="20" VerticalAlignment="Top"/>
+                        <TextBox Height="24" VerticalAlignment="Top" Margin="329,163,166,0" Text="{Binding RepresentanteLegalCrea}" />
+
+                        <TextBlock Text="Cargo" Margin="429,143,78,0" Height="20" VerticalAlignment="Top"/>
+                        <TextBox Height="24" VerticalAlignment="Top" Margin="429,163,0,0" Text="{Binding RepresentanteLegalCargo}" />
                     </Grid>
 
                     <!-- BDI -->
@@ -92,7 +123,8 @@
                         <TextBlock Text="Encargos Horista" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Width="109"/>
                         <currency:CurrencyTextBox StringFormat="P2" Height="24" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" Number="{Binding Path=LeisSociais[0].Valor}" />
 
-                        <TextBlock Text="Encargos Mensalista" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="114,0,0,0" Width="116"/>
+                        <TextBlock Text="Encargos Horista" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="114,0,0,0" Width="109"/>
+                        <currency:CurrencyTextBox StringFormat="P2" Height="24" Margin="114,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="109" Number="{Binding Path=LeisSociais[1].Valor}" />
                     </Grid>
 
                 </Grid>

@@ -102,9 +102,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Classes\DataBase\ItensCpuDb.cs" />
+    <Compile Include="Classes\Base\BaseReferencia.cs" />
+    <Compile Include="Classes\Base\BaseReferenciaDataBase.cs" />
+    <Compile Include="Classes\DataBase\Models\ItensCpuDb.cs" />
     <Compile Include="Classes\DataBase\MysqlDataAccess .cs" />
     <Compile Include="Classes\Importaçao\ImportarCsv.cs" />
+    <Compile Include="OrcamentoManager.cs" />
     <Compile Include="UI\Paginas\BaseInsumosPage.xaml.cs">
       <DependentUpon>BaseInsumosPage.xaml</DependentUpon>
     </Compile>
@@ -125,7 +128,6 @@
     <Compile Include="Enum\TipoInsumo.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoLista.cs" />
     <Compile Include="Interfaces\Orcamento\IValorComLeisSociais.cs" />
-    <Compile Include="Provider.cs" />
     <Page Include="UI\Paginas\BaseInsumosPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

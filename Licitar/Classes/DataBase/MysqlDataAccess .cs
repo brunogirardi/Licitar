@@ -23,17 +23,17 @@ namespace Licitar
 
         #region Insumos
 
-        public static ObservableCollection<IInsumoGeral> InsumosListar()
+        public ObservableCollection<IInsumoGeral> InsumosListar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
                 var output = cnn.Query<InsumoGeral>(
-                    @"SELECT ins.*, preco.Preco as ValorUnitario
+                    @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, preco.Preco as ValorUnitario
                       FROM refinsumos as ins
                       INNER JOIN refprecos as preco
                       ON ins.idRefInsumos = preco.idRefInsumos
-                      WHERE preco.idRefPrecoBase = 1 AND ins.Tipo > 0", 
-                    new DynamicParameters());
+                      WHERE preco.idRefPrecoBase = @Id AND ins.Tipo > 0", 
+                    new { Id = id });
 
                 List<IInsumoGeral> lista = output.ToList<IInsumoGeral>();
 
@@ -41,7 +41,7 @@ namespace Licitar
             }
         }
 
-        public static IInsumoGeral InsumoBuscar(int id)
+        public IInsumoGeral InsumoBuscar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
@@ -56,7 +56,7 @@ namespace Licitar
         /// </summary>
         /// <param name="CodigoRef"></param>
         /// <returns>Retorna um inteiro com a ID do banco de dados</returns>
-        public static int InsumoBuscarIdComOCodigoRef(int CodigoRef)
+        public int InsumoBuscarIdComOCodigoRef(int CodigoRef)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
@@ -68,7 +68,7 @@ namespace Licitar
         /// Insere um insumo ao banco de dados
         /// </summary>
         /// <param name="insumo">Insumo a ser inserido</param>
-        public static void InsumoSave(IInsumoGeral insumo)
+        public void InsumoSave(IInsumoGeral insumo)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
@@ -84,7 +84,7 @@ namespace Licitar
         /// Salva a lista de insumos no banco de dados
         /// </summary>
         /// <param name="Lista"></param>
-        public static void InsumoSaveList(ObservableCollection<IInsumoGeral> Lista)
+        public void InsumoSaveList(ObservableCollection<IInsumoGeral> Lista)
         {
 
             MySqlTransaction transaction;
@@ -138,13 +138,30 @@ namespace Licitar
 
         #region Composições
 
+        public ObservableCollection<ICpuGeral> ComposiçãoListar(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<CpuGeral>(
+                    @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, preco.Preco as ValorUnitario
+                      FROM refinsumos as ins
+                      INNER JOIN refprecos as preco
+                      ON ins.idRefInsumos = preco.idRefInsumos
+                      WHERE preco.idRefPrecoBase = @Id AND ins.Tipo = 0",
+                    new { Id = id });
 
-        public static ObservableCollection<IInsumoGeral> ComposiçãoListar(int codigo)
+                List<CpuGeral> lista = output.ToList();
+
+                return new ObservableCollection<ICpuGeral>(lista);
+            }
+        }
+
+        public ObservableCollection<IInsumoGeral> ComposiçãoListarItens(int codigo)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
                 var output = cnn.Query<InsumoGeral>(
-                    @"SELECT ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, coef.Coeficiente, p.Preco
+                    @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, coef.Coeficiente as Quantidade, p.Preco as ValorUnitario
                       FROM refinsumoscoeficientes as coef
                       INNER JOIN refinsumos as ins ON coef.idRefInsumosItem = ins.idRefInsumos
                       INNER JOIN refprecos as p ON p.idRefInsumos = coef.idRefInsumosItem
@@ -157,7 +174,7 @@ namespace Licitar
             }
         }
 
-        public static void ComposiçãoSave(CpuGeral cpu)
+        public void ComposiçãoSave(CpuGeral cpu)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
@@ -179,7 +196,7 @@ namespace Licitar
         /// </summary>
         /// <param name="item"></param>
         /// <param name="idComposicao"></param>
-        public static void ComposiçãoItemSave(IInsumoGeral item, int idComposicao)
+        public void ComposiçãoItemSave(IInsumoGeral item, int idComposicao)
         {
 
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
@@ -197,7 +214,7 @@ namespace Licitar
         /// Salva os itens da composição no banco de dados
         /// </summary>
         /// <param name="itens"></param>
-        public static void ComposiçãoItensListSave(ObservableCollection<ItensCpuDb> itens)
+        public void ComposiçãoItensListSave(ObservableCollection<ItensCpuDb> itens)
         {
 
             MySqlTransaction transaction;
@@ -239,6 +256,82 @@ namespace Licitar
             }
 
         }
+
+        #endregion
+
+        #region Bases de Referência
+
+        /// <summary>
+        /// Relaciona as bases de referencia cadastradas no sistema
+        /// </summary>
+        /// <returns></returns>
+        public ObservableCollection<BaseReferencia> BaseRefLista()
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<BaseReferencia>(
+                    "SELECT * FROM refbases;",
+                    new DynamicParameters());
+
+                List<BaseReferencia> lista = output.ToList();
+
+                return new ObservableCollection<BaseReferencia>(lista);
+            }
+        }
+
+        /// <summary>
+        /// Relaciona as datas base para os preços disponíveis para a bases de referencia selecionada
+        /// </summary>
+        /// <param name="id">Código da base de referencia</param>
+        /// <returns></returns>
+        public ObservableCollection<BaseReferenciaDataBase> DataBaseDePrecoLista(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<BaseReferenciaDataBase>("SELECT * FROM engenharia.refprecobase WHERE idRefBases=@Id;", new { Id = id });
+
+                List<BaseReferenciaDataBase> lista = output.ToList();
+
+                return new ObservableCollection<BaseReferenciaDataBase>(lista);
+            }
+        }
+
+        #endregion
+
+        #region Orçamentos
+
+        #region Geral
+
+        public OrcamentoManager OrcamentoDados(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<OrcamentoManager>("SELECT * FROM OrcPrincipal WHERE idOrcPrincipal=@Id;", new { Id = id }).First();
+
+                return output;
+            }
+        }
+        public ObservableCollection<Bdi> BdiLista(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<Bdi>("SELECT Descricao, Valor, idOrcBdis as Id FROM orcBdis WHERE idOrcRevisao=@Id;", new { Id = id });
+
+                return new ObservableCollection<Bdi>(output.ToList());
+            }
+        }
+
+        public ObservableCollection<LeisSociais> LeisSociaisLista(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<LeisSociais>("SELECT Descricao, Valor, idOrcLeisSociais as Id FROM orcLeisSociais WHERE idOrcRevisao=@Id;", new { Id = id });
+
+                return new ObservableCollection<LeisSociais>(output.ToList());
+            }
+        }
+
+        #endregion
 
         #endregion
 

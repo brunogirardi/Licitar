@@ -14,7 +14,19 @@
     </Page.Resources>
 
     <Grid>
-        <TabControl>
+
+        <TextBlock Text="Base de Referência" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,1115,0"/>
+        <ComboBox x:Name="cbBaseReferencia" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,20,0,0" SelectionChanged="CbBaseReferencia_SelectionChanged" DisplayMemberPath="Descricao" Width="385" />
+
+        <TextBlock Text="Data base dos preços" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="390,0,725,0"/>
+        <ComboBox x:Name="cbDataBase" VerticalAlignment="Top" HorizontalAlignment="Left" DisplayMemberPath="Descricao" Width="385" Margin="390,20,0,0" />
+
+        <Button x:Name="cmdCarregarBase" Content="Carregar" VerticalAlignment="Top" HorizontalAlignment="Left" Width="80" Margin="780,20,0,0" Height="22" Click="CmdCarregarBase_Click" />
+
+        <TextBlock Text="Pesquisar" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,0,250,0"/>
+        <TextBox x:Name="edtPesquisar" VerticalAlignment="Top" HorizontalAlignment="Right" Width="300" Margin="0,20,0,0" Height="22" />
+
+        <TabControl Margin="0,47,0,0">
 
             <!-- Insumos de Referência -->
             <TabItem Header="Insumos">

@@ -15,11 +15,11 @@ namespace Licitar
     public partial class App : Application
     {
 
-        public Provider provider { get; set; }
+        public OrcamentoManager provider { get; set; }
 
         public App()
         {
-            provider = new Provider();
+            provider = Factory.DBAcesso.OrcamentoDados(1);
 
             ObservableCollection<IOrcamentoItens> itens = new ObservableCollection<IOrcamentoItens>()
             {
@@ -57,11 +57,6 @@ namespace Licitar
 
 
             };
-
-            // Carrega a lista de insumos
-            provider.Insumos = MysqlDataAccess.InsumosListar();
-
-            provider.Composicoes = MysqlDataAccess.ComposiçãoListar();
 
             provider.Orcamento = new OrcamentoLista(itens);
         }
