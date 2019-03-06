@@ -25,6 +25,9 @@ namespace Licitar
             // Preenche o orçamento
             provider.Orcamento = new OrcamentoLista(Factory.DBAcesso.OrcamentoLista(1));
 
+            // Listar
+            provider.BaseReferencia = Factory.DBAcesso.ComposiçãoListar(1);
+
         }
     }
 }

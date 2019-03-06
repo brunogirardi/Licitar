@@ -15,14 +15,14 @@
 
     <!-- Orçamento -->
     <Grid>
-        
+
         <!-- Selecionar Orçamento -->
         <Grid Margin="0,5,0,5">
             <TextBlock Text="Código Orçamento" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Height="22" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" />
             <Button Content="Buscar" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="105,20,0,0" Height="22" Width="65" />
 
-            <TextBlock Text="Revisão" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+            <TextBlock Text="Revisão" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0"/>
             <ComboBox Height="22" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80">
                 <ComboBoxItem Content="00" IsSelected="True"/>
             </ComboBox>
@@ -74,29 +74,33 @@
 
                     <!-- Lado do Orçamento -->
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="47*"/>
+                            <ColumnDefinition Width="692*"/>
+                        </Grid.ColumnDefinitions>
 
-                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" />
-                        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
-                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" />
+                        <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" Grid.ColumnSpan="2" />
+                        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" Grid.ColumnSpan="2" />
+                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" />
 
-                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Relacionar base x orçamento" Margin="0,0,53,0" />
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" />
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" />
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Relacionar base x orçamento" Margin="0,0,53,0" Grid.Column="1" />
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" />
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" />
 
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Cpu Rápida" Margin="0,16,228,0" Height="22" Width="100" />
+                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Cpu Rápida" Margin="0,16,228,0" Height="22" Width="100" Grid.Column="1" />
 
                         <DataGrid
-                              x:Name="dgListaDestinoOrcamento"
+                              x:Name="dgListaLinkOrcamento"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch" 
-                              AutoGenerateColumns="False" Margin="0,43,0,0">
+                              AutoGenerateColumns="False" Margin="0,43,0,0" Grid.ColumnSpan="2">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Item}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Itemizacao}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Valor Venda" Width="100" Binding="{Binding Quantidade}" />
+                                <DataGridTextColumn Header="Valor Venda" Width="100" Binding="{Binding ValorUnitarioVenda}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -106,7 +110,12 @@
 
                         <!-- Comandos da Lista -->
                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Selecionar base" Margin="0,0,68,0" />
-                        <ComboBox VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,16,0,0" Width="150">
+                        <ComboBox x:Name="cbSelecionarBase" 
+                                  VerticalAlignment="Top" 
+                                  HorizontalAlignment="Right" 
+                                  Margin="0,16,0,0" 
+                                  Width="150"
+                                  SelectionChanged="CbSelecionarBase_SelectionChanged">
                             <ComboBoxItem Content="Orçamento" IsSelected="True" />
                             <ComboBoxItem Content="SINAPI 2019.01" />
                         </ComboBox>
@@ -117,17 +126,17 @@
                         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" />
 
                         <DataGrid
-                              x:Name="dgListaOrigemBase"
+                              x:Name="dgListaLinkBase"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch" 
                               AutoGenerateColumns="False" Margin="0,43,0,0">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Código Ref." Width="100" Binding="{Binding Item}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Código Ref." Width="100" Binding="{Binding CodigoRef}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Tipo" Width="100"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding Quantidade}" />
+                                <DataGridTextColumn Header="Tipo" Width="100"  Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitario}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

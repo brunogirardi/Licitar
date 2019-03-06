@@ -51,7 +51,7 @@ namespace Licitar
         /// <param name="e"></param>
         private void Insumos_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+            // listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
         }
 
         private void ListaComposicoes_SelectionChanged(object sender, SelectionChangedEventArgs e)

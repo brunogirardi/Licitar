@@ -58,16 +58,16 @@ namespace Licitar
         private void ImportarInsumos_Click(object sender, RoutedEventArgs e)
         {
 
-            Factory.AccessoAppProvider.Insumos = ImportarExcel.CarregarInsumos();
+            // Factory.AccessoAppProvider.Insumos = ImportarExcel.CarregarInsumos();
 
-            ((BaseInsumosPage)Pages[1]).listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+            // ((BaseInsumosPage)Pages[1]).listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
         }
 
         private void ImportarComposicoes_Click(object sender, RoutedEventArgs e)
         {
-            ImportarCsv.CarregarComposicoes();
+            // ImportarCsv.CarregarComposicoes();
 
-            ((BaseInsumosPage)Pages[1]).listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
+            // ((BaseInsumosPage)Pages[1]).listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
         }
 
         private void BaseInsumos_Click(object sender, RoutedEventArgs e)

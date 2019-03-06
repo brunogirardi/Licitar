@@ -138,11 +138,11 @@ namespace Licitar
 
         #region Composições
 
-        public ObservableCollection<ICpuGeral> ComposiçãoListar(int id)
+        public ObservableCollection<InsumoGeral> ComposiçãoListar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<CpuGeral>(
+                var output = cnn.Query<InsumoGeral>(
                     @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, preco.Preco as ValorUnitario
                       FROM refinsumos as ins
                       INNER JOIN refprecos as preco
@@ -150,9 +150,9 @@ namespace Licitar
                       WHERE preco.idRefPrecoBase = @Id AND ins.Tipo = 0",
                     new { Id = id });
 
-                List<CpuGeral> lista = output.ToList();
+                List<InsumoGeral> lista = output.ToList();
 
-                return new ObservableCollection<ICpuGeral>(lista);
+                return new ObservableCollection<InsumoGeral>(lista);
             }
         }
 

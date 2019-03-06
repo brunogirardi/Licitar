@@ -34,11 +34,20 @@ namespace Licitar
             listBdi.ItemsSource = _provider.Bdis;
 
             listInsumos.ItemsSource = _provider.Orcamento.Colecao;
+
+            dgListaLinkOrcamento.ItemsSource = _provider.Orcamento.Colecao;
+
+            dgListaLinkBase.ItemsSource = _provider.BaseReferencia;
         }
 
         private void CmdAdicionaItem_Click(object sender, RoutedEventArgs e)
         {
             _provider.Bdis[1].Valor = 30;
+        }
+
+        private void CbSelecionarBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
         }
     }
 }
