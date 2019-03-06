@@ -311,6 +311,7 @@ namespace Licitar
                 return output;
             }
         }
+
         public ObservableCollection<Bdi> BdiLista(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
@@ -328,6 +329,17 @@ namespace Licitar
                 var output = cnn.Query<LeisSociais>("SELECT Descricao, Valor, idOrcLeisSociais as Id FROM orcLeisSociais WHERE idOrcRevisao=@Id;", new { Id = id });
 
                 return new ObservableCollection<LeisSociais>(output.ToList());
+            }
+        }
+
+
+        public List<ItensOrcamentoDb> OrcamentoLista(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<ItensOrcamentoDb>("SELECT * FROM orcOrcamento WHERE idOrcRevisao=@Id;", new { Id = id });
+
+                return new List<ItensOrcamentoDb>(output.ToList());
             }
         }
 

@@ -2,12 +2,12 @@
 
 namespace Licitar
 {
-    public interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais
+    public interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais, IOrcamentoVenda
     {
         /// <summary>
         /// Lista de insumos/serviços da cpu
         /// </summary>
-        int CodigoRef { get; set; }
+        string CodigoRef { get; set; }
 
         /// <summary>
         /// Unidade de medida do serviço
@@ -35,16 +35,10 @@ namespace Licitar
         IChaveValue Bdi { get; set; }
 
         /// <summary>
-        /// Armazena os itens da composição
+        /// Relaciona uma composição / insumo ao item do orçamento
         /// </summary>
-        ObservableCollection<IInsumoGeral> Itens { get; set; }
+        IInsumoGeral Item{ get; set; }
 
-        /// <summary>
-        /// Calcula o valor total do tipo de insumo
-        /// </summary>
-        /// <param name="tipo">Tipo do Insumo</param>
-        /// <returns></returns>
-        double ValorTotalTipo(tipoInsumo tipo);
 
     }
 }

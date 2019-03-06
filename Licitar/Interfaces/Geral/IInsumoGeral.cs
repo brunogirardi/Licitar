@@ -53,7 +53,7 @@ namespace Licitar
         /// <summary>
         /// Retorna o valor total com leis sociais
         /// </summary>
-        double ValorTotalComLS { get; }    
+        double ValorTotalComLS { get; }
 
     }
 }

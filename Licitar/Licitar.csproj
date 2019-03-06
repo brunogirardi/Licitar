@@ -105,8 +105,10 @@
     <Compile Include="Classes\Base\BaseReferencia.cs" />
     <Compile Include="Classes\Base\BaseReferenciaDataBase.cs" />
     <Compile Include="Classes\DataBase\Models\ItensCpuDb.cs" />
+    <Compile Include="Classes\DataBase\Models\ItensOrcamentoDb.cs" />
     <Compile Include="Classes\DataBase\MysqlDataAccess .cs" />
     <Compile Include="Classes\Importaçao\ImportarCsv.cs" />
+    <Compile Include="Interfaces\Orcamento\IOrcamentoVenda.cs" />
     <Compile Include="OrcamentoManager.cs" />
     <Compile Include="UI\Paginas\BaseInsumosPage.xaml.cs">
       <DependentUpon>BaseInsumosPage.xaml</DependentUpon>
@@ -123,7 +125,6 @@
     <Compile Include="Interfaces\Orcamento\IOrcamentoCpu.cs" />
     <Compile Include="Interfaces\Orcamento\IOrcamentoItens.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoCpu.cs" />
-    <Compile Include="Classes\Orçamento\OrcamentoInsumos.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoTitulo.cs" />
     <Compile Include="Enum\TipoInsumo.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoLista.cs" />
@@ -142,7 +143,6 @@
     </Compile>
     <Compile Include="Classes\Geral\Bdi.cs" />
     <Compile Include="Classes\Geral\LeisSociais.cs" />
-    <Compile Include="Interfaces\Orcamento\IOrcamentoInsumo.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

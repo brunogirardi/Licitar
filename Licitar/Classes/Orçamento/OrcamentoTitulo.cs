@@ -4,17 +4,21 @@ namespace Licitar
 {
     public class OrcamentoTitulo : IOrcamentoItens
     {
-        public string Item { get; set; }
+        public int idOrcOrcamento { get; set; }
+
+        public string Itemizacao { get; set; }
 
         public int Sequencia { get; set; }
 
-        public int? ObjetoPai { get; set; }
+        public int? idOrcOrcamentoPai { get; set; }
 
         public double ValorTotal { get; set; }
 
-        public string Descrição { get; set; }
+        public string Descricao { get; set; }
 
         public tipoInsumo Tipo { get; set; }
+
+        public double ValorTotalVenda { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

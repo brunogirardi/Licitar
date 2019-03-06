@@ -10,27 +10,25 @@ namespace Licitar
     {
         
         #region Prodriedades
-
-        private ObservableCollection<IInsumoGeral> insumos;
-        
+                
         /// <summary>
-        /// Relação de insumos da cpu
+        /// Insumo/Composição relacionado ao orçamento
         /// </summary>
         [AlsoNotifyFor(nameof(ValorUnitario))]
-        public ObservableCollection<IInsumoGeral> Itens {
-            get => insumos;
-            set
-            {
-                insumos = value;
-                RegistrarMonitoramentoItenCpu(value);
-            }
-
+        public IInsumoGeral Item {
+            get;
+            set;
         }
+
+        /// <summary>
+        /// Código do item dentro do banco de dados
+        /// </summary>
+        public int idOrcOrcamento { get; set; }
 
         /// <summary>
         /// Código de referencia de bases auxiliares SINAPI / SEDOP / SEINFRA e etc...
         /// </summary>
-        public int CodigoRef { get; set; }
+        public string CodigoRef { get; set; }
 
         /// <summary>
         /// Unidade de medida do serviço
@@ -42,8 +40,15 @@ namespace Licitar
         /// </summary>
         [AlsoNotifyFor(nameof(ValorComBdi))]
         public double ValorUnitario {
-            get => CalcularValorUnitario();
-            set => value = 1;
+            get
+            {
+                if (Item != null)
+                {
+                    return Item.ValorUnitario;
+                }
+                return 0;
+            }
+            set => value = 0;
         }
 
         /// <summary>
@@ -75,7 +80,7 @@ namespace Licitar
         /// <summary>
         /// Código da itemização do orçamento
         /// </summary>
-        public string Item { get; set; }
+        public string Itemizacao { get; set; }
 
         /// <summary>
         /// Sequencia do item dentro do orçamento
@@ -85,7 +90,7 @@ namespace Licitar
         /// <summary>
         /// Define o item pai do serviço
         /// </summary>
-        public int? ObjetoPai { get; set; }
+        public int? idOrcOrcamentoPai { get; set; }
 
         /// <summary>
         /// Valor total do item
@@ -98,16 +103,44 @@ namespace Licitar
         /// <summary>
         /// Descrição do serviço
         /// </summary>
-        public string Descrição { get; set; }
+        public string Descricao { get; set; }
 
         /// <summary>
         /// Tipo de insumo
         /// </summary>
         public tipoInsumo Tipo { get; set; } = tipoInsumo.Composicao;
 
-        public double ValorUnitarioComLs => ValorUnitario;
+        public double ValorUnitarioComLs
+        {
+            get
+            {
+                if (Item != null)
+                {
+                    return Item.ValorUnitarioComLS;
+                }
+                return 0;
+            }
+        } 
 
-        public double ValorTotalComLs => ValorTotal;
+        public double ValorTotalComLs
+        {
+            get
+            {
+                if (Item != null)
+                {
+                    return Item.ValorTotalComLS;
+                }
+                return 0;
+            }
+        }
+
+        public double ValorUnitarioVenda { get; set; }
+
+        public double ValorTotalVenda
+        {
+            get => Math.Round(Quantidade * ValorUnitarioVenda, 2);
+            set => value = 0;
+        }
 
         #endregion
 
@@ -148,15 +181,6 @@ namespace Licitar
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
         }
 
-        private double CalcularValorUnitario()
-        {
-            return Itens.Sum(x => CalcularLeisSociais.Calcular(x));
-        }
-
-        public double ValorTotalTipo(tipoInsumo tipo)
-        {
-            return Itens.Where(item => item.Tipo == tipo).Sum(x => x.ValorTotal);
-        }
         #endregion
 
         #region Eventos

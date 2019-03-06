@@ -47,11 +47,9 @@ namespace Licitar
         /// </summary>
         public OrcamentoManager()
         {
-
             Bdis = Factory.DBAcesso.BdiLista(1);
 
             LeisSociais = Factory.DBAcesso.LeisSociaisLista(1);
-
         }
 
     }

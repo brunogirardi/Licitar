@@ -41,17 +41,17 @@
                               AutoGenerateColumns="False">
 
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Item}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Itemizacao}" IsReadOnly="True" />
                             <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" />
                             <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" />
                             <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
                             <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade}" />
                             <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" />
                             <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
                             <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. Unit. Venda" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. Total Venda" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. Unit. Venda" Width="100" Binding="{Binding ValorUnitarioVenda}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Vlr. Total Venda" Width="100" Binding="{Binding ValorTotalVenda}" IsReadOnly="True" />
                         </DataGrid.Columns>
                     </DataGrid>
 
