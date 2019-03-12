@@ -37,7 +37,7 @@ namespace Licitar
 
             dgListaLinkOrcamento.ItemsSource = _provider.Orcamento.Colecao;
 
-            dgListaLinkBase.ItemsSource = _provider.BaseReferencia;
+            dgListaLinkBase.ItemsSource = _provider.BaseOrcamento;
         }
 
         private void CmdAdicionaItem_Click(object sender, RoutedEventArgs e)
@@ -47,7 +47,31 @@ namespace Licitar
 
         private void CbSelecionarBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            int index = ((ComboBox)sender).SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    dgListaLinkBase.ItemsSource = _provider.BaseOrcamento;
+                    break;
+                case 1:
+                    dgListaLinkBase.ItemsSource = _provider.BaseReferencia;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Botão responsavel por vincular o orçamento com a base de insumos do orçamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OrcVincular_Click(object sender, RoutedEventArgs e)
+        {
+            // Verifica se as duas listas tem itens selecionados
+            if ((dgListaLinkOrcamento.SelectedItems.Count > 0) && (dgListaLinkBase.SelectedItems.Count > 0))
+            {
+
+            }
         }
     }
 }

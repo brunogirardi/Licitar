@@ -138,11 +138,11 @@ namespace Licitar
 
         #region Composições
 
-        public ObservableCollection<InsumoGeral> ComposiçãoListar(int id)
+        public ObservableCollection<IInsumoGeral> ComposiçãoListar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<InsumoGeral>(
+                var output = cnn.Query<CpuGeral>(
                     @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, preco.Preco as ValorUnitario
                       FROM refinsumos as ins
                       INNER JOIN refprecos as preco
@@ -150,27 +150,47 @@ namespace Licitar
                       WHERE preco.idRefPrecoBase = @Id AND ins.Tipo = 0",
                     new { Id = id });
 
-                List<InsumoGeral> lista = output.ToList();
+                List<CpuGeral> lista = output.ToList();
 
-                return new ObservableCollection<InsumoGeral>(lista);
+                return new ObservableCollection<IInsumoGeral>(lista);
             }
         }
 
-        public ObservableCollection<IInsumoGeral> ComposiçãoListarItens(int codigo)
+        public ObservableCollection<CpuCoefGeral> ComposiçãoListarItens(int codigo)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
-                var output = cnn.Query<InsumoGeral>(
-                    @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, coef.Coeficiente as Quantidade, p.Preco as ValorUnitario
+                var output = cnn.ExecuteReader(
+                    @"SELECT coef.idRefInsumosCoeficientes , ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo,  p.Preco as ValorUnitario, coef.Coeficiente
                       FROM refinsumoscoeficientes as coef
                       INNER JOIN refinsumos as ins ON coef.idRefInsumosItem = ins.idRefInsumos
                       INNER JOIN refprecos as p ON p.idRefInsumos = coef.idRefInsumosItem
                       WHERE coef.idRefInsumos = " + codigo + ";",
-                    new DynamicParameters()); 
-                
-                List<IInsumoGeral> lista = output.ToList<IInsumoGeral>();
+                    new DynamicParameters());
 
-                return new ObservableCollection<IInsumoGeral>(lista);
+                List<CpuCoefGeral> lista = new List<CpuCoefGeral>();
+
+                while (output.Read())
+                {
+                    lista.Add(
+                            new CpuCoefGeral()
+                            {
+                                IdCoeficiente = output.GetInt32(0),
+                                Coeficiente = output.GetDouble(7),
+                                Insumo = new InsumoGeral()
+                                {
+                                    Id = output.GetInt32(1),
+                                    CodigoRef = output.GetString(2),
+                                    Descrição = output.GetString(3),
+                                    Unidade = output.GetString(4),
+                                    Tipo = tipoInsumo.Indefinido,
+                                    ValorUnitario = output.GetDouble(6),
+                                }
+                            }
+                        );
+                }
+
+                return new ObservableCollection<CpuCoefGeral>(lista);
             }
         }
 
@@ -196,15 +216,15 @@ namespace Licitar
         /// </summary>
         /// <param name="item"></param>
         /// <param name="idComposicao"></param>
-        public void ComposiçãoItemSave(IInsumoGeral item, int idComposicao)
+        public void ComposiçãoItemSave(CpuCoefGeral item, int idComposicao)
         {
 
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
 
-                cnn.Execute("INSERT INTO ComposicaoItem (ComposicaoId, InsumoId, Quantidade) VALUES (@ComposicaoId, @InsumoId, @Quantidade)", new { ComposicaoId = idComposicao, InsumoId = item.Id, item.Quantidade });
+                cnn.Execute("INSERT INTO ComposicaoItem (ComposicaoId, InsumoId, Quantidade) VALUES (@ComposicaoId, @InsumoId, @Quantidade)", new { ComposicaoId = idComposicao, InsumoId = item.Insumo.Id, item.Coeficiente });
 
-                item.Id = (int)cnn.ExecuteScalar("SELECT last_insert_rowid()");
+                item.IdCoeficiente = (int)cnn.ExecuteScalar("SELECT last_insert_rowid()");
 
             }
 
@@ -342,6 +362,75 @@ namespace Licitar
                 return new List<ItensOrcamentoDb>(output.ToList());
             }
         }
+
+        #endregion
+
+        #region Base do Orçamento
+
+        //public ObservableCollection<IInsumoGeral> InsumosOrcamentoLista(int revisao)
+        //{
+        //    using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+        //    {
+        //        // Localiza todos os insumos da base do orçamento
+        //        var insumos = cnn.Query<List<InsumoGeral>>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as CodigoRef, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+        //                                              FROM orcinsumos as ins
+        //                                              INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+        //                                              WHERE ins.idOrcRevisa = @Id;", new { Id = revisao });
+        //        // Localiza os coeficientes das cpus
+        //        var coef = cnn.Query<List<ItensCpuOrc>>(@"SELECT coef.* FROM orcinsumoscoeficientes as coef
+        //                                            INNER JOIN orcinsumos as ins ON coef.idOrcInsumos = ins.idOrcInsumos
+        //                                            WHERE idOrcRevisa = @Id;", new { Id = revisao });
+
+        //        List<ItensCpuOrc> coefs = coef as List<ItensCpuOrc>;
+
+        //        List<IInsumoGeral> itens = new List<IInsumoGeral>();
+
+        //        // Processa as cpus
+        //        foreach (InsumoGeral item in (List<InsumoGeral>)insumos)
+        //        {
+        //            if (item.Tipo == 0)
+        //            {
+
+
+
+        //            }
+        //        }
+
+        //        return new ObservableCollection<IInsumoGeral>(insumos.ToList());
+        //    }
+        //}
+
+        //private CpuGeral MontarCpu(InsumoGeral ItemAProcessar, List<IInsumoGeral> ItensProcessados, List<InsumoGeral> Insumos, List<ItensCpuOrc> Coeficientes)
+        //{
+
+        //    CpuGeral cpu = new CpuGeral()
+        //    {
+        //        Id = ItemAProcessar.Id,
+        //        CodigoRef = ItemAProcessar.CodigoRef,
+        //        Descrição = ItemAProcessar.Descrição,
+        //        Unidade = ItemAProcessar.Unidade,
+        //        Quantidade = ItemAProcessar.Quantidade,
+        //        Tipo = ItemAProcessar.Tipo,
+        //        ValorUnitario = ItemAProcessar.ValorUnitario
+        //    };
+
+        //    // Separa somente os itens a serem adicionados na cpu
+        //    List<ItensCpuOrc> coefItem = Coeficientes.Where(x => x.idOrcInsumos == cpu.Id).ToList();
+
+        //    foreach (var item in coefItem)
+        //    {
+        //        IInsumoGeral loc = ItensProcessados.Where(x => x.Id == item.idOrcInsumos).First();
+
+        //        if (loc.Tipo == 0)
+        //        {
+
+        //        } else
+        //        {
+        //            loc.Quantidade = item.Coeficiente;
+        //            cpu.Itens.Add(loc);
+        //        }
+        //    }
+        //}
 
         #endregion
 

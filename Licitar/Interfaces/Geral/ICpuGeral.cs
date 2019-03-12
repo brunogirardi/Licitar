@@ -8,7 +8,7 @@ namespace Licitar
         /// <summary>
         /// Relação de insumos da composição
         /// </summary>
-        ObservableCollection<IInsumoGeral> Itens { get; set; }
+        ObservableCollection<CpuCoefGeral> Itens { get; set; }
 
     }
 }

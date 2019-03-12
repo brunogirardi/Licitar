@@ -128,7 +128,7 @@ namespace Licitar
             {
                 if (Item != null)
                 {
-                    return Item.ValorTotalComLS;
+                    return Item.ValorUnitarioComLS;
                 }
                 return 0;
             }

@@ -60,7 +60,7 @@ namespace Licitar
             ICpuGeral selecao = e.AddedItems[0] as ICpuGeral;
 
             // Verifica se a composição já foi preenchida com os itens
-            if (selecao.Itens.Count() == 0)
+            if (e.AddedItems.Count > 0)
             {
                 foreach (var item in Factory.DBAcesso.ComposiçãoListarItens(selecao.Id))
                 {

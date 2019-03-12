@@ -33,27 +33,11 @@ namespace Licitar
         /// </summary>
         public string Unidade { get; set; }
 
-        [AlsoNotifyFor("ValorTotal")]
-        public double Quantidade { get; set; } = 0;
-
-        public double ValorTotal
-        {
-            get => Math.Round(Quantidade * ValorUnitario, 2);
-        } 
-            
-
-        [AlsoNotifyFor("ValorTotal")]
         public double ValorUnitario { get; set; }
         /// <summary>
         /// Retorna o valor unitário com o acréscimo de leis sociais
         /// </summary>
         public double ValorUnitarioComLS => CalcularLeisSociais.Calcular(ValorUnitario, Unidade, Tipo);
-
-        /// <summary>
-        /// Retorna o valor total com o acréscimo de leis sociais
-        /// </summary>
-        public double ValorTotalComLS => CalcularLeisSociais.Calcular(ValorTotal, Unidade, Tipo);
-
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

@@ -11,7 +11,7 @@ namespace Licitar
 
         public CpuGeral()
         {
-            itens = new ObservableCollection<IInsumoGeral>();
+            itens = new ObservableCollection<CpuCoefGeral>();
         }
 
         #region Propriedades
@@ -42,22 +42,15 @@ namespace Licitar
         public string Unidade { get; set; }
 
         /// <summary>
-        /// Quantidade utilizada do serviço
-        /// </summary>
-        [AlsoNotifyFor(nameof(ValorTotal))]
-        public double Quantidade { get; set; }
-
-        /// <summary>
         /// Valor unitário do serviço
         /// </summary>
         private double valorUnitario;
-        [AlsoNotifyFor(nameof(ValorTotal))]
         public double ValorUnitario
         {
             get {
                 if (itens.Count() > 0)
                 {
-                    return Itens.Sum(x => CalcularLeisSociais.Calcular(x));
+                    return Itens.Sum(x => x.ValorUnitario);
                 } else
                 {
                     return valorUnitario;
@@ -67,28 +60,21 @@ namespace Licitar
         }
 
         /// <summary>
-        /// Valor total do serviço
-        /// </summary>
-        public double ValorTotal {
-            get => Math.Round(Quantidade * ValorUnitario, 2);
-        }
-
-        /// <summary>
         /// Campo de armazenamento dos itens que compoem a cpu
         /// </summary>
-        private ObservableCollection<IInsumoGeral> itens;
+        private ObservableCollection<CpuCoefGeral> itens;
 
         /// <summary>
         /// Relação de insumos que compõem a cpu
         /// </summary>
-        [AlsoNotifyFor(nameof(ValorUnitario), new string[] { nameof(ValorTotal)})]
-        public ObservableCollection<IInsumoGeral> Itens
+        [AlsoNotifyFor(nameof(ValorUnitario))]
+        public ObservableCollection<CpuCoefGeral> Itens
         {
             get => itens;
             set
             {
-                // Operação de atribuição de evento para monitorar qqualquer alteração
-                foreach (IInsumoGeral item in value)
+                // Operação de atribuição de evento para monitorar qualquer alteração
+                foreach (CpuCoefGeral item in value)
                 {
                     item.PropertyChanged += NotificarMudancaNaCpu;
                 }
@@ -98,12 +84,7 @@ namespace Licitar
         /// <summary>
         /// Retorna o valor unitário com o acréscimo de leis sociais
         /// </summary>
-        public double ValorUnitarioComLS => CalcularLeisSociais.Calcular(ValorUnitario, Unidade, Tipo);
-
-        /// <summary>
-        /// Retorna o valor total com o acréscimo de leis sociais
-        /// </summary>
-        public double ValorTotalComLS => CalcularLeisSociais.Calcular(ValorTotal, Unidade, Tipo);
+        public double ValorUnitarioComLS => Itens.Sum(x => x.ValorUnitario);
 
         #endregion
 
@@ -116,9 +97,9 @@ namespace Licitar
         /// <param name="e">Propriedade do evento</param>
         private void NotificarMudancaNaCpu(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ValorTotal")
+            if (e.PropertyName == "ValorUnitario")
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
             }
         }
 

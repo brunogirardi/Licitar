@@ -31,29 +31,14 @@ namespace Licitar
         string Unidade { get; set; }
 
         /// <summary>
-        /// Quantidade prevista no orçamento
-        /// </summary>
-        double Quantidade { get; set; }
-
-        /// <summary>
         /// Valor uniário do serviço
         /// </summary>
         double ValorUnitario { get; }
 
         /// <summary>
-        /// Valor total do item
-        /// </summary>
-        double ValorTotal { get; }
-
-        /// <summary>
         /// Retorna o valor unitário com leis sociais
         /// </summary>
         double ValorUnitarioComLS { get; }
-
-        /// <summary>
-        /// Retorna o valor total com leis sociais
-        /// </summary>
-        double ValorTotalComLS { get; }
-
+        
     }
 }

@@ -84,8 +84,8 @@
                         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" />
 
                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Relacionar base x orçamento" Margin="0,0,53,0" Grid.Column="1" />
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" />
-                        <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" />
+                        <Button x:Name="OrcVincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" Click="OrcVincular_Click" />
+                        <Button x:Name="OrcDesvincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" />
 
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Cpu Rápida" Margin="0,16,228,0" Height="22" Width="100" Grid.Column="1" />
 
@@ -93,6 +93,7 @@
                               x:Name="dgListaLinkOrcamento"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch" 
+                              AllowDrop="True"
                               AutoGenerateColumns="False" Margin="0,43,0,0" Grid.ColumnSpan="2">
 
                             <DataGrid.Columns>
@@ -116,7 +117,7 @@
                                   Margin="0,16,0,0" 
                                   Width="150"
                                   SelectionChanged="CbSelecionarBase_SelectionChanged">
-                            <ComboBoxItem Content="Orçamento" IsSelected="True" />
+                            <ComboBoxItem Content="Orçamento" />
                             <ComboBoxItem Content="SINAPI 2019.01" />
                         </ComboBox>
 
@@ -128,7 +129,7 @@
                         <DataGrid
                               x:Name="dgListaLinkBase"
                               VerticalAlignment="Stretch" 
-                              HorizontalAlignment="Stretch" 
+                              HorizontalAlignment="Stretch"
                               AutoGenerateColumns="False" Margin="0,43,0,0">
 
                             <DataGrid.Columns>

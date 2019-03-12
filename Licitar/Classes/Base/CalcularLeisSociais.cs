@@ -21,15 +21,15 @@ namespace Licitar
             {
                 if (item.Unidade == "MÊS")
                 {
-                    return Math.Round(item.ValorTotal * (1 + (Factory.LeisSociais[0].Valor / 100)), 2);
+                    return Math.Round(item.ValorUnitario * (1 + (Factory.LeisSociais[0].Valor / 100)), 2);
                 }
                 else
                 {
-                    return Math.Round(item.ValorTotal * (1 + (Factory.LeisSociais[1].Valor / 100)), 2);
+                    return Math.Round(item.ValorUnitario * (1 + (Factory.LeisSociais[1].Valor / 100)), 2);
                 }
             }
 
-            return item.ValorTotal;
+            return item.ValorUnitario;
 
         }
 

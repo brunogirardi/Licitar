@@ -104,7 +104,9 @@
     </ApplicationDefinition>
     <Compile Include="Classes\Base\BaseReferencia.cs" />
     <Compile Include="Classes\Base\BaseReferenciaDataBase.cs" />
+    <Compile Include="Classes\Base\CpuCoefGeral.cs" />
     <Compile Include="Classes\DataBase\Models\ItensCpuDb.cs" />
+    <Compile Include="Classes\DataBase\Models\ItensCpuOrc.cs" />
     <Compile Include="Classes\DataBase\Models\ItensOrcamentoDb.cs" />
     <Compile Include="Classes\DataBase\MysqlDataAccess .cs" />
     <Compile Include="Classes\Importaçao\ImportarCsv.cs" />
@@ -189,10 +191,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="UI\Design\" />
+    <Folder Include="UI\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />
