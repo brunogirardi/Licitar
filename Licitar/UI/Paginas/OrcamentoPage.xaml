@@ -80,12 +80,12 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" Grid.ColumnSpan="2" />
-                        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" Grid.ColumnSpan="2" />
-                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" />
+                        <TextBox x:Name="edtPesquisarOrcamento" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" Grid.ColumnSpan="2" />
+                        <Button x:Name="cmdPesquisarOrcamento" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" Click="CmdPesquisarOrcamento_Click" />
 
                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Relacionar base x orçamento" Margin="0,0,53,0" Grid.Column="1" />
                         <Button x:Name="OrcVincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" Click="OrcVincular_Click" />
-                        <Button x:Name="OrcDesvincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" />
+                        <Button x:Name="OrcDesvincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" Click="OrcDesvincular_Click" />
 
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Cpu Rápida" Margin="0,16,228,0" Height="22" Width="100" Grid.Column="1" />
 
@@ -99,6 +99,7 @@
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Itemizacao}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
+                                <DataGridTextColumn Header="Vinculado" Width="80"  Binding="{Binding Vinculado}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Valor Venda" Width="100" Binding="{Binding ValorUnitarioVenda}" />
@@ -123,8 +124,8 @@
 
 
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" />
-                        <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
-                        <Button HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" />
+                        <TextBox x:Name="edtPesquisarBaseReferencia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
+                        <Button x:Name="cmdPesquisarBaseReferencia" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" Click="CmdPesquisarBaseReferencia_Click" />
 
                         <DataGrid
                               x:Name="dgListaLinkBase"
@@ -251,15 +252,15 @@
                     <!-- Composição -->
                     <Grid Grid.Column="1" Margin="10,0,10,0">
                         <TextBlock Text="Relação de Itens da Composição" />
-                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Item.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
-                                <DataGridTextColumn Binding="{Binding Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
-                                <DataGridTextColumn Binding="{Binding Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
-                                <DataGridTextColumn Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
-                                <DataGridTextColumn Binding="{Binding Quantidade}" Header="Quantidade" Width="90" />
-                                <DataGridTextColumn Binding="{Binding ValorUnitarioComLS}" IsReadOnly="True" Header="Valor Unit." Width="90" />
-                                <DataGridTextColumn Binding="{Binding ValorTotalComLS}" IsReadOnly="True" Header="Valor Total" Width="90" />
+                                <DataGridTextColumn Binding="{Binding Insumo.CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Coeficiente}" Header="Quantidade" Width="90" />
+                                <DataGridTextColumn Binding="{Binding Insumo.ValorUnitarioComLS}" IsReadOnly="True" Header="Valor Unit." Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" Header="Valor Total" Width="90" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

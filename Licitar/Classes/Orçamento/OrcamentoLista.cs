@@ -32,13 +32,14 @@ namespace Licitar
                     });
                 }
 
-                /// Converte o registro em uma instacia de <see cref="OrcamentoCpu"/>
+                /// Converte o registro em uma instacia de <see cref="OrcamentoItem"/>
                 else
                 {
-                    NovaLista.Add(new OrcamentoCpu()
+                    OrcamentoItem novoItem = new OrcamentoItem()
                     {
                         idOrcOrcamento = item.idOrcOrcamento,
                         Itemizacao = item.Itemizacao,
+                        
                         Sequencia = item.Sequencia,
                         idOrcOrcamentoPai = item.idOrcOrcamentoPai,
                         Descricao = item.Descricao,
@@ -47,7 +48,13 @@ namespace Licitar
                         Quantidade = item.Quantidade,
                         ValorUnitarioVenda = item.ValorUnitarioVenda,
                         Bdi = Factory.Bdis.Where(x => x.Id == item.idOrcBdis).First(),
-                    });
+                    };
+
+                    if (item.idOrcInsumos != 0) 
+                        novoItem.Item = Factory.AccessoAppProvider.BaseOrcamento.Where(x => x.Id == item.idOrcInsumos).First();
+
+                    NovaLista.Add(novoItem);
+
                 }
             }
 

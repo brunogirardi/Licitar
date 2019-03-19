@@ -2,7 +2,7 @@
 
 namespace Licitar
 {
-    public interface IOrcamentoCpu : IOrcamentoItens, IValorComLeisSociais, IOrcamentoVenda
+    public interface IOrcamentoItem : IOrcamentoItens, IValorComLeisSociais, IOrcamentoVenda
     {
         /// <summary>
         /// Lista de insumos/serviços da cpu
@@ -38,6 +38,11 @@ namespace Licitar
         /// Relaciona uma composição / insumo ao item do orçamento
         /// </summary>
         IInsumoGeral Item{ get; set; }
+
+        /// <summary>
+        /// Retorna se o item já está vinculado a um insumo / cpu
+        /// </summary>
+        bool Vinculado { get; }
 
 
     }

@@ -62,10 +62,7 @@ namespace Licitar
             // Verifica se a composição já foi preenchida com os itens
             if (e.AddedItems.Count > 0)
             {
-                foreach (var item in Factory.DBAcesso.ComposiçãoListarItens(selecao.Id))
-                {
-                    selecao.Itens.Add(item);
-                }
+                selecao.Itens = Factory.DBAcesso.ComposiçãoListarItens(selecao.Id);
             }
 
         }

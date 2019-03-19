@@ -367,70 +367,177 @@ namespace Licitar
 
         #region Base do Orçamento
 
-        //public ObservableCollection<IInsumoGeral> InsumosOrcamentoLista(int revisao)
-        //{
-        //    using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
-        //    {
-        //        // Localiza todos os insumos da base do orçamento
-        //        var insumos = cnn.Query<List<InsumoGeral>>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as CodigoRef, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
-        //                                              FROM orcinsumos as ins
-        //                                              INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
-        //                                              WHERE ins.idOrcRevisa = @Id;", new { Id = revisao });
-        //        // Localiza os coeficientes das cpus
-        //        var coef = cnn.Query<List<ItensCpuOrc>>(@"SELECT coef.* FROM orcinsumoscoeficientes as coef
-        //                                            INNER JOIN orcinsumos as ins ON coef.idOrcInsumos = ins.idOrcInsumos
-        //                                            WHERE idOrcRevisa = @Id;", new { Id = revisao });
+        /// <summary>
+        /// Carrega os insumos/composições salvos no orçamento
+        /// </summary>
+        /// <param name="revisao"></param>
+        /// <returns></returns>
+        public ObservableCollection<IInsumoGeral> InsumosOrcamentoLista(int revisao)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                // Localiza todos os insumos da base do orçamento
+                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                                                                            FROM orcinsumos as ins
+                                                                            INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                            WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos>0;", new { Id = revisao });
 
-        //        List<ItensCpuOrc> coefs = coef as List<ItensCpuOrc>;
+                // Localiza todos os insumos da base do orçamento
+                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                                                                   FROM orcinsumos as ins
+                                                                   INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                   WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos=0;", new { Id = revisao });
 
-        //        List<IInsumoGeral> itens = new List<IInsumoGeral>();
+                // Localiza os coeficientes das cpus
+                IEnumerable<ItensCpuOrc> coefs = cnn.Query<ItensCpuOrc>(@"SELECT coef.* FROM orcinsumoscoeficientes as coef
+                                                                          INNER JOIN orcinsumos as ins ON coef.idOrcInsumos = ins.idOrcInsumos
+                                                                          WHERE idOrcRevisa = @Id;", new { Id = revisao });
 
-        //        // Processa as cpus
-        //        foreach (InsumoGeral item in (List<InsumoGeral>)insumos)
-        //        {
-        //            if (item.Tipo == 0)
-        //            {
+                List<IInsumoGeral> listaGeral = new List<IInsumoGeral>();
 
+                //listaGeral.;
+                listaGeral.AddRange(insumos.ToList());
+                listaGeral.AddRange(cpus.ToList());
 
+                // Processa as cpus
+                foreach (var item in listaGeral)
+                {
+                    // Verifica se o item é do tipo cpu
+                    if (item.Tipo == 0)
+                    {
+                        List<ItensCpuOrc> coefsCpu = coefs.Where(x => x.idOrcInsumos == item.Id).ToList();
 
-        //            }
-        //        }
+                        foreach (ItensCpuOrc coefCpu in coefsCpu)
+                        {
+                            CpuCoefGeral cpuCoefTemp = new CpuCoefGeral()
+                            {
+                                Coeficiente = coefCpu.Coeficiente,
+                                IdCoeficiente = coefCpu.idOrcInsumosCoeficientes,
+                                Insumo = listaGeral.Where(x => x.Id == coefCpu.idOrcInsumosItem).First()
+                            };
 
-        //        return new ObservableCollection<IInsumoGeral>(insumos.ToList());
-        //    }
-        //}
+                            ((CpuGeral)item).Itens.Add(cpuCoefTemp);
+                        }
 
-        //private CpuGeral MontarCpu(InsumoGeral ItemAProcessar, List<IInsumoGeral> ItensProcessados, List<InsumoGeral> Insumos, List<ItensCpuOrc> Coeficientes)
-        //{
+                    }
+                }
 
-        //    CpuGeral cpu = new CpuGeral()
-        //    {
-        //        Id = ItemAProcessar.Id,
-        //        CodigoRef = ItemAProcessar.CodigoRef,
-        //        Descrição = ItemAProcessar.Descrição,
-        //        Unidade = ItemAProcessar.Unidade,
-        //        Quantidade = ItemAProcessar.Quantidade,
-        //        Tipo = ItemAProcessar.Tipo,
-        //        ValorUnitario = ItemAProcessar.ValorUnitario
-        //    };
+                return new ObservableCollection<IInsumoGeral>(listaGeral);
+            }
+        }
 
-        //    // Separa somente os itens a serem adicionados na cpu
-        //    List<ItensCpuOrc> coefItem = Coeficientes.Where(x => x.idOrcInsumos == cpu.Id).ToList();
+        public int InsumosOrcamentoAdicionarDaBase(int IdInsumo, int IdRevisao)
+        {
+            int output;
 
-        //    foreach (var item in coefItem)
-        //    {
-        //        IInsumoGeral loc = ItensProcessados.Where(x => x.Id == item.idOrcInsumos).First();
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
 
-        //        if (loc.Tipo == 0)
-        //        {
+                output = cnn.ExecuteScalar<int>("SET @@SESSION.max_sp_recursion_depth=25;CALL SP_IMPORTAR_INS_BASE_REF(@Id, @Revisao);", new { Id = IdInsumo, Revisao = IdRevisao });
+                
+            }
 
-        //        } else
-        //        {
-        //            loc.Quantidade = item.Coeficiente;
-        //            cpu.Itens.Add(loc);
-        //        }
-        //    }
-        //}
+            return output;
+        }
+
+        public ObservableCollection<IInsumoGeral> InsumosOrcamentoListaAtualizar(ObservableCollection<IInsumoGeral> ItensBase, int Revisao)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                // Localiza todos os insumos da base do orçamento
+                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                                                                            FROM orcinsumos as ins
+                                                                            INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                            WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos>0;", new { Id = Revisao });
+
+                // Localiza todos os insumos da base do orçamento
+                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                                                                   FROM orcinsumos as ins
+                                                                   INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                   WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos=0;", new { Id = Revisao });
+
+                // Localiza os coeficientes das cpus
+                IEnumerable<ItensCpuOrc> coefs = cnn.Query<ItensCpuOrc>(@"SELECT coef.* FROM orcinsumoscoeficientes as coef
+                                                                          INNER JOIN orcinsumos as ins ON coef.idOrcInsumos = ins.idOrcInsumos
+                                                                          WHERE idOrcRevisa = @Id;", new { Id = Revisao });
+
+                List<IInsumoGeral> listaGeral = new List<IInsumoGeral>();
+
+                // Gera uma lista com todos os insumos do banco de daos
+                listaGeral.AddRange(insumos.ToList());
+                listaGeral.AddRange(cpus.ToList());
+
+                // Verifica se todos os insumos estão na lista base
+                foreach (var item in listaGeral)
+                {
+                    if (ItensBase.Where(x => x.Id == item.Id).Count() == 0)
+                    {
+                        ItensBase.Add(item);
+                    }
+                }
+
+                // Processa as cpus dos itens acrescidos a lista
+                foreach (var item in listaGeral)
+                {
+
+                    // Verifica se o item é do tipo cpu
+                    if (item.Tipo == 0)
+                    {
+                        // Verifica se a composição está vazia e se estiver adiciona os insumos e coeficientes
+                        if (((CpuGeral)item).Itens.Count() == 0)
+                        {
+                            List<ItensCpuOrc> coefsCpu = coefs.Where(x => x.idOrcInsumos == item.Id).ToList();
+
+                            foreach (ItensCpuOrc coefCpu in coefsCpu)
+                            {
+                                CpuCoefGeral cpuCoefTemp = new CpuCoefGeral()
+                                {
+                                    Coeficiente = coefCpu.Coeficiente,
+                                    IdCoeficiente = coefCpu.idOrcInsumosCoeficientes,
+                                    Insumo = listaGeral.Where(x => x.Id == coefCpu.idOrcInsumosItem).First()
+                                };
+
+                                ((CpuGeral)item).Itens.Add(cpuCoefTemp);
+                            }
+                        }
+                    }
+                }
+
+                return new ObservableCollection<IInsumoGeral>(listaGeral);
+            }
+        }
+
+        #endregion
+
+        #region Manipular Orçamento
+
+        /// <summary>
+        /// Vincula o item do orçamento ao item da base de insumos do orçamento
+        /// </summary>
+        /// <param name="idItemBase"></param>
+        /// <param name="idItemOrcamento"></param>
+        /// <returns></returns>
+        public void OrcamentoVincularItem(int idItemBase, int idItemOrcamento)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Execute("UPDATE orcorcamento SET idOrcInsumos = @idInsumo WHERE idOrcOrcamento=@idInsumoOrc;", new { idInsumo = idItemBase, idInsumoOrc = idItemOrcamento });
+            }
+        }
+
+        /// <summary>
+        /// Vincula o item do orçamento ao item da base de insumos do orçamento
+        /// </summary>
+        /// <param name="idItemBase"></param>
+        /// <param name="idItemOrcamento"></param>
+        /// <returns></returns>
+        public void OrcamentoDesvincularItem(int idItemOrcamento)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Execute("UPDATE orcorcamento SET idOrcInsumos = null WHERE idOrcOrcamento=@idInsumoOrc;", new { idInsumoOrc = idItemOrcamento });
+            }
+        }
 
         #endregion
 

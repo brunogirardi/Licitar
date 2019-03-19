@@ -34,10 +34,16 @@ namespace Licitar
         public string Unidade { get; set; }
 
         public double ValorUnitario { get; set; }
+
         /// <summary>
         /// Retorna o valor unitário com o acréscimo de leis sociais
         /// </summary>
         public double ValorUnitarioComLS => CalcularLeisSociais.Calcular(ValorUnitario, Unidade, Tipo);
+
+        /// <summary>
+        /// Id do banco de dado de onde o insumo/cpu foi copiado
+        /// </summary>
+        public int IdBaseReferencia { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
     }

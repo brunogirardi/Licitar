@@ -73,6 +73,7 @@ namespace Licitar
             get => itens;
             set
             {
+                itens = value;
                 // Operação de atribuição de evento para monitorar qualquer alteração
                 foreach (CpuCoefGeral item in value)
                 {
@@ -86,6 +87,12 @@ namespace Licitar
         /// </summary>
         public double ValorUnitarioComLS => Itens.Sum(x => x.ValorUnitario);
 
+
+        /// <summary>
+        /// Id do banco de dado de onde o insumo/cpu foi copiado
+        /// </summary>
+        public int IdBaseReferencia { get; set; }
+
         #endregion
 
         #region Metodos auxiliares
@@ -97,9 +104,10 @@ namespace Licitar
         /// <param name="e">Propriedade do evento</param>
         private void NotificarMudancaNaCpu(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "ValorUnitario")
+            if ((e.PropertyName == "ValorUnitario") || (e.PropertyName == "ValorUnitarioComLs"))
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLS)));
             }
         }
 

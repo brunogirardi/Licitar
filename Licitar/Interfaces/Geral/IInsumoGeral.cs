@@ -11,6 +11,11 @@ namespace Licitar
         int Id { get; set; }
         
         /// <summary>
+        /// Recebe a id da base de referencia de onde o item foi puxado
+        /// </summary>
+        int IdBaseReferencia { get; set; }
+
+        /// <summary>
         /// Código de referencia de bases auxiliares SINAPI / SEDOP / SEINFRA e etc...
         /// </summary>
         string CodigoRef { get; set; }

@@ -6,18 +6,23 @@ using System.Linq;
 
 namespace Licitar
 {
-    public class OrcamentoCpu : IOrcamentoCpu
+    public class OrcamentoItem : IOrcamentoItem
     {
-        
+
         #region Prodriedades
-                
+
         /// <summary>
         /// Insumo/Composição relacionado ao orçamento
         /// </summary>
-        [AlsoNotifyFor(nameof(ValorUnitario))]
+        IInsumoGeral item;
+        [AlsoNotifyFor(nameof(ValorUnitario), nameof(Vinculado))]
         public IInsumoGeral Item {
-            get;
-            set;
+            get => item;
+            set
+            {
+                item = value;
+                if (value != null) item.PropertyChanged += MonitorarMudançaItem;
+            }
         }
 
         /// <summary>
@@ -120,7 +125,7 @@ namespace Licitar
                 }
                 return 0;
             }
-        } 
+        }
 
         public double ValorTotalComLs
         {
@@ -142,28 +147,25 @@ namespace Licitar
             set => value = 0;
         }
 
+        public bool Vinculado
+        {
+            get
+            {
+                if (Item != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         #endregion
 
         #region Helper functions
 
-        private void RegistrarMonitoramentoItenCpu(ObservableCollection<IInsumoGeral> itens)
-        {
-            foreach (IInsumoGeral item in itens)
-            {
-                item.PropertyChanged += MonitorarMudançaItem;
-            }
-        }
-
         private void MonitorarMudançaItem(object sender, PropertyChangedEventArgs e)
         {
-            // Verifica se a mudança vai gerar alteração de valor na CPU
-            if (e.PropertyName == "ValorTotal")
-            {
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorTotal)));
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLs)));
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorComBdi)));
-            }
+            OnPropertyChanged(new PropertyChangedEventArgs(e.PropertyName));
         }
 
         /// <summary>
