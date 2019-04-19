@@ -4,7 +4,15 @@
              xmlns:local="clr-namespace:Licitar"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <!-- Attach default Theme -->
-        <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Attach default Theme -->
+                <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="/UI/Resources/ComponentsResources.xaml" />
+                <ResourceDictionary Source="/UI/Resources/ConvertersResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

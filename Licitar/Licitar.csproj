@@ -110,10 +110,18 @@
     <Compile Include="Classes\DataBase\Models\ItensOrcamentoDb.cs" />
     <Compile Include="Classes\DataBase\MysqlDataAccess .cs" />
     <Compile Include="Classes\Importaçao\ImportarCsv.cs" />
+    <Compile Include="Classes\Orçamento\CpuOrcamento.cs" />
+    <Compile Include="Classes\Orçamento\InsumosOrcamento.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoItem.cs" />
     <Compile Include="Interfaces\Orcamento\IOrcamentoItem.cs" />
     <Compile Include="Interfaces\Orcamento\IOrcamentoVenda.cs" />
     <Compile Include="OrcamentoManager.cs" />
+    <Compile Include="UI\Classes\RelayCommand.cs" />
+    <Compile Include="UI\ViewModels\LocalizarViewModel.cs" />
+    <Compile Include="UI\ViewModels\OrcamentoViewModel.cs" />
+    <Compile Include="UI\Window\Localizar.xaml.cs">
+      <DependentUpon>Localizar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\Paginas\BaseInsumosPage.xaml.cs">
       <DependentUpon>BaseInsumosPage.xaml</DependentUpon>
     </Compile>
@@ -131,6 +139,18 @@
     <Compile Include="Enum\TipoInsumo.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoLista.cs" />
     <Compile Include="Interfaces\Orcamento\IValorComLeisSociais.cs" />
+    <Page Include="UI\Resources\ComponentsResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Resources\ConvertersResources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Window\Localizar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\Paginas\BaseInsumosPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,8 +216,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Interfaces\UserControls\" />
     <Folder Include="UI\Design\" />
-    <Folder Include="UI\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FodyWeavers.xml" />

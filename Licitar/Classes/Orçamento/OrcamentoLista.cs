@@ -7,8 +7,20 @@ namespace Licitar
 {
     public class OrcamentoLista : INotifyPropertyChanged
     {
+
+        #region Propriedades
+
         /// <summary>
-        /// Construtor responsável por montar o orçamento
+        /// Propriedade que segura a lista de itens do orçamento
+        /// </summary>
+        public ObservableCollection<IOrcamentoItens> Colecao { get; private set; }
+
+        #endregion
+
+        #region Construtores
+
+        /// <summary>
+        /// Construtor responsável por montar o orçamento a partir do resultado do banco de dados
         /// Transforma uma <see cref="ItensOrcamentoDb" /> para o formato do orçamento
         /// </summary>
         /// <param name="lista">Lista de itens vindo do bando de dados</param>
@@ -39,7 +51,6 @@ namespace Licitar
                     {
                         idOrcOrcamento = item.idOrcOrcamento,
                         Itemizacao = item.Itemizacao,
-                        
                         Sequencia = item.Sequencia,
                         idOrcOrcamentoPai = item.idOrcOrcamentoPai,
                         Descricao = item.Descricao,
@@ -50,27 +61,31 @@ namespace Licitar
                         Bdi = Factory.Bdis.Where(x => x.Id == item.idOrcBdis).First(),
                     };
 
-                    if (item.idOrcInsumos != 0) 
+                    if (item.idOrcInsumos != 0)
                         novoItem.Item = Factory.AccessoAppProvider.BaseOrcamento.Where(x => x.Id == item.idOrcInsumos).First();
 
                     NovaLista.Add(novoItem);
 
                 }
+
             }
 
             this.Colecao = NovaLista;
 
+            Reordenar();
+
+            Itemizar();
+
             this.RecalcularTotal();
 
             this.MonitorarTotalizadores();
+
         }
-    
+
         /// <summary>
-        /// Propriedade que segura a lista de itens do orçamento
+        /// Construtor responsável por iniciar a instancia apartir de uma coleção já formatada
         /// </summary>
-        public ObservableCollection<IOrcamentoItens> Colecao { get; set; }
-
-
+        /// <param name="itens"></param>
         public OrcamentoLista(ObservableCollection<IOrcamentoItens> itens)
         {
             this.Colecao = itens;
@@ -79,6 +94,30 @@ namespace Licitar
 
             this.MonitorarTotalizadores();
         }
+
+        #endregion
+
+        #region Public Methods
+
+        public void AdicionarItem(IOrcamentoItens Item, int Posicao)
+        {
+            Colecao.Insert(Posicao, Item);
+
+            Reordenar();
+
+            Itemizar();
+        }
+
+        public void AdicionarItem(IOrcamentoItens Item)
+        {
+            Colecao.Add(Item);
+
+            Reordenar();
+
+            Itemizar();
+        }
+
+        #endregion
 
         #region Helper Methods
 
@@ -123,10 +162,10 @@ namespace Licitar
             {
                 if (Colecao[i].idOrcOrcamentoPai != null)
                 {
-                    
+
                     // Verifica se o item tem um objeto pai
                     int ObjetoPai = IndexDoTituloPai(Colecao[i].idOrcOrcamentoPai.GetValueOrDefault());
-                    
+
                     if (i != ObjetoPai)
                     {
                         // Link os objetos a serem manipulados
@@ -140,7 +179,69 @@ namespace Licitar
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Gera a itemização dos itens do orçamento
+        /// </summary>
+        /// <returns></returns>
+        private void Itemizar(IOrcamentoItens Pai = null)
+        {
+
+            IEnumerable<IOrcamentoItens> itens;
+
+            // Verifica se o pai e nulo e inicia o processo
+            if (Pai == null) { itens = Colecao.Where(x => x.idOrcOrcamentoPai == null); }
+            else { itens = Colecao.Where(x => x.idOrcOrcamentoPai == Pai.idOrcOrcamento); }
+
+            // Monta itemizacao dos subitens
+            foreach (var item in itens)
+            {
+                item.Itemizacao = Pai.Itemizacao + "." + item.Sequencia.ToString();
+                Itemizar(item);
+            }
+
+        }
+
+        /// <summary>
+        /// Reordena os itens da coleção
+        /// </summary>
+        private void Reordenar()
+        {
+
+            List<IOrcamentoItens> ListaReordenada = new List<IOrcamentoItens>();
+            IEnumerable<IOrcamentoItens> Itens;
+
+            Itens = Colecao.Where(x => x.idOrcOrcamentoPai == 0);
+
+            // Monta itemizacao dos subitens
+            foreach (var item in Itens)
+            {
+                ListaReordenada.Add(item);
+                OrdenarItens(item, ListaReordenada);
+            }
+
+            Colecao = new ObservableCollection<IOrcamentoItens>(ListaReordenada);
+
+        }
+
+        /// <summary>
+        /// Reordena os subitens da coleção, função trabalha em conjunto com a fução <see cref="Reordenar"/>
+        /// </summary>
+        /// <param name="Pai"></param>
+        /// <param name="Lista"></param>
+        private void OrdenarItens(IOrcamentoItens Pai, List<IOrcamentoItens> Lista)
+        {
+            IEnumerable<IOrcamentoItens> Itens;
+
+            Itens = Colecao.Where(x => x.idOrcOrcamentoPai == Pai.idOrcOrcamento).OrderBy(x => x.Sequencia);
+
+            // Monta itemizacao dos subitens
+            foreach (var item in Itens)
+            {
+                Lista.Add(item);
+                OrdenarItens(item, Lista);
+            }
+        }
+
 
         private int IndexDoTituloPai(int valor)
         {
@@ -161,6 +262,12 @@ namespace Licitar
               RecalcularTotal();
         }
 
+        #endregion
+
+        #region Events
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
     }
 }

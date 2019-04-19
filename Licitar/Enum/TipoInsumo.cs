@@ -14,5 +14,22 @@ namespace Licitar
         Verbas,
         Indefinido,
         Titulo,
+    }   
+
+    public class TipoInsumo
+    {
+        public static IEnumerable<string> Lista()
+        {
+            return new List<string>()
+            {
+                "Composição",
+                "Material",
+                "Mão de Obra",
+                "Equipamentos",
+                "Verbas",
+                "Indefinido",
+                "Titulo"
+            };
+        }
     }
 }

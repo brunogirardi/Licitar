@@ -35,7 +35,7 @@
                                    Click="BaseInsumos_Click"/>
                 </Fluent:RibbonGroupBox>
                 <Fluent:RibbonGroupBox Header="Titulos">
-                    <Fluent:Button Header="Incluir" LargeIcon="{fa:IconSource PlusSquare}" />
+                    <Fluent:Button Click="Button_Click" Header="Incluir" LargeIcon="{fa:IconSource PlusSquare}" />
                     <Fluent:Button Header="Deletar" LargeIcon="{fa:IconSource MinusSquare}" />
                     <Fluent:Button Header="Avançar Nivel" LargeIcon="{fa:IconSource ArrowAltCircleRight}" />
                     <Fluent:Button Header="Recuar Nivel" LargeIcon="{fa:IconSource ArrowAltCircleLeft}" />

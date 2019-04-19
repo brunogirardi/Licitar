@@ -81,5 +81,14 @@ namespace Licitar
             Conteudo.Content = Pages[0];
             // CurrentPage = PageSystem.Orcamento;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Localizar localizar = new Localizar();
+            IInsumoGeral item;
+            localizar.ShowDialog();
+            LocalizarViewModel model = (LocalizarViewModel)localizar.DataContext;
+            if (model.InsumoSelecionado != null) item = model.InsumoSelecionado;
+        }
     }
 }

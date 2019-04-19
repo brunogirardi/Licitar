@@ -51,6 +51,16 @@ namespace Licitar
 
         }
 
+        public bool InsertItemEnableCheck()
+        {
+            if (NovoItemTipo.SelectedItem.ToString() == "Titulo")
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         /// <summary>
         /// Metodo responsável por aplicar filtros na base de referencia
         /// </summary>
@@ -220,6 +230,11 @@ namespace Licitar
 
         }
 
+        /// <summary>
+        /// Botão responsavel por desvicular do orçamento o item da base do orçamento
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OrcDesvincular_Click(object sender, RoutedEventArgs e)
         {
 
@@ -240,6 +255,12 @@ namespace Licitar
                 // Limpa o vinculo na aplicação
                 item.Item = null;
             }
+
+        }
+
+
+        private void DgListaLinkBase_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
         }
     }

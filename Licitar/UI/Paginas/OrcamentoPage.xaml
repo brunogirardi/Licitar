@@ -10,30 +10,24 @@
       Title="OrcamentoPage">
 
     <Page.Resources>
-        <local:TipoInsumoConverter x:Key="TipoInsumoConverter" />
+        <ObjectDataProvider x:Key="Tipos" ObjectType="{x:Type local:TipoInsumo}" MethodName="Lista" />
     </Page.Resources>
 
     <!-- Orçamento -->
     <Grid>
 
         <!-- Selecionar Orçamento -->
-        <Grid Margin="0,5,0,5">
-            <TextBlock Text="Código Orçamento" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Height="22" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" />
-            <Button Content="Buscar" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="105,20,0,0" Height="22" Width="65" />
-
-            <TextBlock Text="Revisão" Height="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,40,0"/>
-            <ComboBox Height="22" Margin="0,20,0,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="80">
-                <ComboBoxItem Content="00" IsSelected="True"/>
-            </ComboBox>
-        </Grid>
+        <Grid Margin="0,5,0,5"/>
 
         <!-- Listas -->
-        <TabControl Margin="0,53,0,255">
+        <TabControl Margin="0,0,0,255">
+
+            <!-- Ações do Orçamento -->
+
 
             <!-- Orçamento -->
             <TabItem Header="Orçamento">
-                <Grid Margin="5,5,5,5">
+                <Grid Margin="5,45,5,5">
 
                     <DataGrid x:Name="listInsumos"
                               VerticalAlignment="Stretch" 
@@ -42,25 +36,20 @@
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Itemizacao}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" />
-                            <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade}" />
-                            <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. Unit. Venda" Width="100" Binding="{Binding ValorUnitarioVenda}" IsReadOnly="True" />
-                            <DataGridTextColumn Header="Vlr. Total Venda" Width="100" Binding="{Binding ValorTotalVenda}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Cód. Ref." Width="80"  Binding="{Binding CodigoRef}" IsReadOnly="True" ElementStyle="{StaticResource DatagridTextCenter}" />
+                            <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" ElementStyle="{StaticResource DatagridTextWrapped}" />
+                            <DataGridTextColumn Header="Tipo" Width="100" Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" ElementStyle="{StaticResource DatagridTextCenter}" />
+                            <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" ElementStyle="{StaticResource DatagridTextCenter}" />
+                            <DataGridTextColumn Header="Quantidade" Width="100" Binding="{Binding Quantidade, StringFormat='#,##0.0000', ConverterCulture='pt-BR'}" ElementStyle="{StaticResource DatagridTextRight}" />
+                            <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitarioComLs, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" IsReadOnly="True" ElementStyle="{StaticResource DatagridTextRight}" />
+                            <DataGridTextColumn Header="Vlr. BDI" Width="100" Binding="{Binding ValorComBdi, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" IsReadOnly="True"  ElementStyle="{StaticResource DatagridTextRight}"/>
+                            <DataGridTextColumn Header="Vlr. Total" Width="100" Binding="{Binding ValorTotal, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" IsReadOnly="True"  ElementStyle="{StaticResource DatagridTextRight}"/>
+                            <DataGridTextColumn Header="Vlr. Unit. Venda" Width="100" Binding="{Binding ValorUnitarioVenda, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" IsReadOnly="True"  ElementStyle="{StaticResource DatagridTextRight}"/>
+                            <DataGridTextColumn Header="Vlr. Total Venda" Width="100" Binding="{Binding ValorTotalVenda, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" IsReadOnly="True"  ElementStyle="{StaticResource DatagridTextRight}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
                 </Grid>
-            </TabItem>
-
-            <!-- Relação de Insumos / Composições -->
-            <TabItem Header="Relação de Insumos">
-
             </TabItem>
 
             <!-- Ferramenta de Link entre o Orçamento e Insumos -->
@@ -102,7 +91,7 @@
                                 <DataGridTextColumn Header="Vinculado" Width="80"  Binding="{Binding Vinculado}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descricao}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Valor Venda" Width="100" Binding="{Binding ValorUnitarioVenda}" />
+                                <DataGridTextColumn Header="Valor Venda" Width="100" Binding="{Binding ValorUnitarioVenda, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -131,14 +120,33 @@
                               x:Name="dgListaLinkBase"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch"
-                              AutoGenerateColumns="False" Margin="0,43,0,0">
+                              AutoGenerateColumns="False" Margin="0,43,0,0" SelectionChanged="DgListaLinkBase_SelectionChanged">
+
+                            <DataGrid.RowStyle>
+                                <Style x:Name="RowVinculada" TargetType="{x:Type DataGridRow}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Tipo}" Value="5">
+                                            <Setter Property="Background" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Tipo}" Value="0">
+                                            <Setter Property="Background" Value="Blue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.RowStyle>
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Código Ref." Width="100" Binding="{Binding CodigoRef}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Descrição do Serviço" Width="*" Binding="{Binding Descrição}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Unidade" Width="70" Binding="{Binding Unidade}" IsReadOnly="True" />
                                 <DataGridTextColumn Header="Tipo" Width="100"  Binding="{Binding Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" />
-                                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitario}" />
+                                <DataGridTextColumn Header="Vlr. Unitário" Width="100" Binding="{Binding ValorUnitario, StringFormat='#,##0.00', ConverterCulture='pt-BR'}">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>
@@ -151,6 +159,123 @@
 
         <!-- Informações Gerais -->
         <TabControl VerticalAlignment="Bottom" x:Name="Detalhes" Height="250" Grid.Row="1" >
+
+            <TabItem Header="Item Selecionado">
+                <Grid Margin="5,5,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="600"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Informações Básicas -->
+                    <Grid Grid.Column="0" Margin="0,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26*"/>
+                            <ColumnDefinition Width="269*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Tipo" Margin="0,0,452,187" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+                        <ComboBox x:Name="NovoItemTipo" IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="0,0,452,163" 
+                            ItemsSource="{Binding Source={StaticResource Tipos}}" Grid.ColumnSpan="2"/>
+
+                        <TextBlock Text="Posição do Novo Item" Margin="91,0,265,187" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="91,0,0,163" HorizontalAlignment="Stretch"
+                            ItemsSource="{Binding ItemsSource, ElementName=listInsumos}" DisplayMemberPath="Descricao" SelectedIndex="{Binding ElementName=listInsumos, Path=SelectedIndex}" Grid.Column="1"/>
+
+                        <TextBlock Text="Descrição do Item" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,49,0,0"/>
+                        <TextBox Height="89" Margin="0,69,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+
+                        <TextBlock Text="Unidade" Margin="0,0,518,24" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,0,518,0" Grid.ColumnSpan="2" />
+
+                        <TextBlock Text="Tipos de BDI" Margin="25,0,375,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="25,0,375,0" 
+                                  DisplayMemberPath="Descricao" SelectedIndex="{Binding SelectedItem.Bdi}" Grid.Column="1"/>
+
+                        <TextBlock Text="Quantidade" Margin="168,0,250,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1" />
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="168,0,250,0" Grid.Column="1" />
+
+                        <TextBlock Text="Valor Unitário Venda" Margin="293,0,125,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="293,0,125,0" Grid.Column="1" />
+
+                        <TextBlock Text="Valor Total Venda" Margin="418,0,0,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="418,0,0,0" Grid.Column="1" />
+
+
+                    </Grid>
+
+                    <!-- Composição -->
+                    <Grid Grid.Column="1" Margin="10,0,10,0"/>
+
+                </Grid>
+            </TabItem>
+
+            <!-- Detalhes do Serviço Selecionado -->
+            <TabItem Header="Item Selecionado">
+                <Grid Margin="5,5,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="600"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="120" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Informações Básicas -->
+                    <Grid Grid.Column="0" Margin="0,0,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="26*"/>
+                            <ColumnDefinition Width="269*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Objeto da Concorrência" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+                        <TextBox Height="138" Margin="0,20,0,0" VerticalAlignment="Top" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Descricao}" Grid.ColumnSpan="2" />
+
+                        <TextBlock Text="Unidade" Margin="0,0,518,24" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
+                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,0,518,0" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Unidade}" Grid.ColumnSpan="2" />
+
+                        <TextBlock Text="Tipos de BDI" Margin="25,0,375,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="25,0,375,0" 
+                                  ItemsSource="{Binding ElementName=listBdi, Path=ItemsSource}" DisplayMemberPath="Descricao" 
+                                  Grid.Column="1" SelectedIndex="{Binding SelectedItem.Bdi}">
+                        </ComboBox>
+
+                        <TextBlock Text="Quantidade" Margin="168,0,250,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1" />
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="168,0,250,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.Quantidade}" Grid.Column="1" />
+
+                        <TextBlock Text="Valor Unitário" Margin="293,0,125,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="293,0,125,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorUnitario}" Grid.Column="1" />
+
+                        <TextBlock Text="Valor Total" Margin="418,0,0,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="418,0,0,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorTotal}" Grid.Column="1" />
+
+                    </Grid>
+
+                    <!-- Composição -->
+                    <Grid Grid.Column="1" Margin="10,0,10,0">
+                        <TextBlock Text="Relação de Itens da Composição" />
+                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Item.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Binding="{Binding Insumo.CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Coeficiente}" Header="Quantidade" Width="90" />
+                                <DataGridTextColumn Binding="{Binding Insumo.ValorUnitarioComLS}" IsReadOnly="True" Header="Valor Unit." Width="90" />
+                                <DataGridTextColumn Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" Header="Valor Total" Width="90" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!-- Comandos -->
+                    <Grid Grid.Column="2" Margin="5,0,0,0">
+                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Inserir" Height="25" Margin="0,20,0,0" />
+                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Editar" Height="25" Margin="0,60,0,0" />
+                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Excluir" Height="25" Margin="0,100,0,82" />
+                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Aplicar" Height="25" Margin="0,182,0,0" />
+                    </Grid>
+
+                </Grid>
+            </TabItem>
 
             <!-- Configurações da Licitação -->
             <TabItem Header="Configurações">
@@ -213,71 +338,6 @@
                     </Grid>
 
                 </Grid>
-            </TabItem>
-
-
-            <!-- Detalhes do Serviço Selecionado -->
-            <TabItem Header="Detalhes do Item">
-                <Grid Margin="5,5,5,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="600"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="120" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Informações Básicas -->
-                    <Grid Grid.Column="0" Margin="0,0,10,0">
-
-                        <TextBlock Text="Objeto da Concorrência" Height="20" VerticalAlignment="Top"/>
-                        <TextBox Height="138" Margin="0,20,0,0" VerticalAlignment="Top" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Descrição}" />
-
-                        <TextBlock Text="Unidade" Margin="0,0,518,24" Height="20" VerticalAlignment="Bottom"/>
-                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,155,518,0" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Unidade}" />
-
-                        <TextBlock Text="Tipos de BDI" Margin="77,0,375,24" Height="20" VerticalAlignment="Bottom"/>
-                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="77,155,375,0" ItemsSource="{Binding Bdis}" DisplayMemberPath="Descricao">
-                        </ComboBox>
-
-                        <TextBlock Text="Quantidade" Margin="220,0,250,24" Height="20" VerticalAlignment="Bottom" />
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="220,155,250,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.Quantidade}" />
-
-                        <TextBlock Text="Valor Unitário" Margin="345,0,125,24" Height="20" VerticalAlignment="Bottom"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="345,155,125,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorUnitario}" />
-
-                        <TextBlock Text="Valor Total" Margin="470,0,0,24" Height="20" VerticalAlignment="Bottom"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="470,183,0,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorTotal}" />
-
-                    </Grid>
-
-                    <!-- Composição -->
-                    <Grid Grid.Column="1" Margin="10,0,10,0">
-                        <TextBlock Text="Relação de Itens da Composição" />
-                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Item.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Insumo.CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
-                                <DataGridTextColumn Binding="{Binding Insumo.Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
-                                <DataGridTextColumn Binding="{Binding Insumo.Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
-                                <DataGridTextColumn Binding="{Binding Insumo.Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
-                                <DataGridTextColumn Binding="{Binding Coeficiente}" Header="Quantidade" Width="90" />
-                                <DataGridTextColumn Binding="{Binding Insumo.ValorUnitarioComLS}" IsReadOnly="True" Header="Valor Unit." Width="90" />
-                                <DataGridTextColumn Binding="{Binding ValorUnitarioComLs}" IsReadOnly="True" Header="Valor Total" Width="90" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-
-                    <!-- Comandos -->
-                    <Grid Grid.Column="2" Margin="5,0,0,0">
-                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Inserir" Height="25" Margin="0,20,0,0" />
-                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Editar" Height="25" Margin="0,60,0,0" />
-                        <Button VerticalAlignment="Top" HorizontalAlignment="Stretch" Content="Excluir" Height="25" Margin="0,100,0,82" />
-                        <Button VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Content="Aplicar" Height="25" Margin="0,182,0,0" />
-                    </Grid>
-
-                </Grid>
-            </TabItem>
-
-            <!-- Utilidades -->
-            <TabItem Header="Utilitários">
             </TabItem>
 
         </TabControl>
