@@ -117,6 +117,7 @@
     <Compile Include="Interfaces\Orcamento\IOrcamentoVenda.cs" />
     <Compile Include="OrcamentoManager.cs" />
     <Compile Include="UI\Classes\RelayCommand.cs" />
+    <Compile Include="UI\Converters\BdiToIndexConverter.cs" />
     <Compile Include="UI\ViewModels\LocalizarViewModel.cs" />
     <Compile Include="UI\ViewModels\OrcamentoViewModel.cs" />
     <Compile Include="UI\Window\Localizar.xaml.cs">

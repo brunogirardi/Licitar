@@ -14,7 +14,7 @@
     </Page.Resources>
 
     <!-- Orçamento -->
-    <Grid>
+    <Grid x:Name="OrcamentoGrid">
 
         <!-- Selecionar Orçamento -->
         <Grid Margin="0,5,0,5"/>
@@ -32,7 +32,9 @@
                     <DataGrid x:Name="listInsumos"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch" 
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              ItemsSource="{Binding Orcamento}"
+                              SelectedItem="{Binding ItemOrcamentoSelecionado}">
 
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Item" Width="100" Binding="{Binding Itemizacao}" IsReadOnly="True" />
@@ -69,17 +71,17 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" Grid.ColumnSpan="2" />
-                        <TextBox x:Name="edtPesquisarOrcamento" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" Grid.ColumnSpan="2" />
-                        <Button x:Name="cmdPesquisarOrcamento" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" Click="CmdPesquisarOrcamento_Click" />
+                        <TextBox Text="{Binding PesquisarBaseOrcamento}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" Grid.ColumnSpan="2" />
+                        <Button Command="{Binding FiltrarBaseOrcamento}" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="108,16,0,0" Grid.Column="1" />
 
                         <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Relacionar base x orçamento" Margin="0,0,53,0" Grid.Column="1" />
-                        <Button x:Name="OrcVincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" Click="OrcVincular_Click" />
-                        <Button x:Name="OrcDesvincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" Click="OrcDesvincular_Click" />
+                        <Button x:Name="OrcVincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Vincular" Margin="0,16,0,0" Height="22" Width="100" Grid.Column="1" />
+                        <Button x:Name="OrcDesvincular" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Desvincular" Margin="0,16,105,0" Height="22" Width="100" Grid.Column="1" />
 
                         <Button HorizontalAlignment="Right" VerticalAlignment="Top" Content="Cpu Rápida" Margin="0,16,228,0" Height="22" Width="100" Grid.Column="1" />
 
                         <DataGrid
-                              x:Name="dgListaLinkOrcamento"
+                              ItemsSource="{Binding BaseOrcamento}"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch" 
                               AllowDrop="True"
@@ -105,31 +107,30 @@
                                   VerticalAlignment="Top" 
                                   HorizontalAlignment="Right" 
                                   Margin="0,16,0,0" 
-                                  Width="150"
-                                  SelectionChanged="CbSelecionarBase_SelectionChanged">
+                                  Width="150">
                             <ComboBoxItem Content="Orçamento" />
                             <ComboBoxItem Content="SINAPI 2019.01" />
                         </ComboBox>
 
 
                         <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Text="Pesquisar" />
-                        <TextBox x:Name="edtPesquisarBaseReferencia" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
-                        <Button x:Name="cmdPesquisarBaseReferencia" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" Click="CmdPesquisarBaseReferencia_Click" />
+                        <TextBox Text="{Binding PesquisarBaseReferencia}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
+                        <Button Command="{Binding FiltrarBaseReferencia}" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" />
 
                         <DataGrid
-                              x:Name="dgListaLinkBase"
+                              ItemsSource="{Binding BaseReferencia}"
                               VerticalAlignment="Stretch" 
                               HorizontalAlignment="Stretch"
-                              AutoGenerateColumns="False" Margin="0,43,0,0" SelectionChanged="DgListaLinkBase_SelectionChanged">
+                              AutoGenerateColumns="False" Margin="0,43,0,0">
 
                             <DataGrid.RowStyle>
                                 <Style x:Name="RowVinculada" TargetType="{x:Type DataGridRow}">
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Tipo}" Value="5">
-                                            <Setter Property="Background" Value="Green" />
+                                            <Setter Property="Foreground" Value="Green" />
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Tipo}" Value="0">
-                                            <Setter Property="Background" Value="Blue" />
+                                            <Setter Property="Foreground" Value="Blue" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -177,85 +178,40 @@
 
                         <TextBlock Text="Tipo" Margin="0,0,452,187" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
                         <ComboBox x:Name="NovoItemTipo" IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="0,0,452,163" 
-                            ItemsSource="{Binding Source={StaticResource Tipos}}" Grid.ColumnSpan="2"/>
+                            ItemsSource="{Binding Source={StaticResource Tipos}}" SelectedValue="{Binding ItemOrcamentoSelecionado.Tipo, Converter={StaticResource TipoInsumoConverter}}" Grid.ColumnSpan="2"/>
 
                         <TextBlock Text="Posição do Novo Item" Margin="91,0,265,187" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
                         <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="91,0,0,163" HorizontalAlignment="Stretch"
                             ItemsSource="{Binding ItemsSource, ElementName=listInsumos}" DisplayMemberPath="Descricao" SelectedIndex="{Binding ElementName=listInsumos, Path=SelectedIndex}" Grid.Column="1"/>
 
                         <TextBlock Text="Descrição do Item" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="0,49,0,0"/>
-                        <TextBox Height="89" Margin="0,69,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+                        <TextBox Height="89" Margin="0,69,0,0" VerticalAlignment="Top" Text="{Binding ItemOrcamentoSelecionado.Descricao}" Grid.ColumnSpan="2" />
 
                         <TextBlock Text="Unidade" Margin="0,0,518,24" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
-                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,0,518,0" Grid.ColumnSpan="2" />
+                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,0,518,0" Grid.ColumnSpan="2" Text="{Binding ItemOrcamentoSelecionado.Unidade}" />
 
                         <TextBlock Text="Tipos de BDI" Margin="25,0,375,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="25,0,375,0" 
-                                  DisplayMemberPath="Descricao" SelectedIndex="{Binding SelectedItem.Bdi}" Grid.Column="1"/>
+                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="25,0,375,0" ItemsSource="{Binding Provider.Bdis}"
+                                  DisplayMemberPath="Descricao" SelectedIndex="{Binding ItemOrcamentoSelecionado.Bdi, Converter={StaticResource BdiToIndexConverter}}" Grid.Column="1"/>
 
                         <TextBlock Text="Quantidade" Margin="168,0,250,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1" />
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="168,0,250,0" Grid.Column="1" />
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="168,0,250,0" Grid.Column="1" Number="{Binding ItemOrcamentoSelecionado.Quantidade}" />
 
                         <TextBlock Text="Valor Unitário Venda" Margin="293,0,125,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="293,0,125,0" Grid.Column="1" />
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="293,0,125,0" Grid.Column="1" Number="{Binding ItemOrcamentoSelecionado.ValorUnitarioVenda}" />
 
                         <TextBlock Text="Valor Total Venda" Margin="418,0,0,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="418,0,0,0" Grid.Column="1" />
+                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="418,0,0,0" Grid.Column="1" Number="{Binding ItemOrcamentoSelecionado.ValorTotalVenda}" />
 
-
-                    </Grid>
-
-                    <!-- Composição -->
-                    <Grid Grid.Column="1" Margin="10,0,10,0"/>
-
-                </Grid>
-            </TabItem>
-
-            <!-- Detalhes do Serviço Selecionado -->
-            <TabItem Header="Item Selecionado">
-                <Grid Margin="5,5,5,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="600"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="120" />
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Informações Básicas -->
-                    <Grid Grid.Column="0" Margin="0,0,10,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="26*"/>
-                            <ColumnDefinition Width="269*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Text="Objeto da Concorrência" Height="20" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-                        <TextBox Height="138" Margin="0,20,0,0" VerticalAlignment="Top" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Descricao}" Grid.ColumnSpan="2" />
-
-                        <TextBlock Text="Unidade" Margin="0,0,518,24" Height="20" VerticalAlignment="Bottom" Grid.ColumnSpan="2"/>
-                        <TextBox Height="24" VerticalAlignment="Bottom" Margin="0,0,518,0" Text="{Binding ElementName=listInsumos, Path=SelectedItem.Unidade}" Grid.ColumnSpan="2" />
-
-                        <TextBlock Text="Tipos de BDI" Margin="25,0,375,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <ComboBox IsEditable="True" Height="24" VerticalAlignment="Bottom" Margin="25,0,375,0" 
-                                  ItemsSource="{Binding ElementName=listBdi, Path=ItemsSource}" DisplayMemberPath="Descricao" 
-                                  Grid.Column="1" SelectedIndex="{Binding SelectedItem.Bdi}">
-                        </ComboBox>
-
-                        <TextBlock Text="Quantidade" Margin="168,0,250,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1" />
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="168,0,250,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.Quantidade}" Grid.Column="1" />
-
-                        <TextBlock Text="Valor Unitário" Margin="293,0,125,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="293,0,125,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorUnitario}" Grid.Column="1" />
-
-                        <TextBlock Text="Valor Total" Margin="418,0,0,24" Height="20" VerticalAlignment="Bottom" Grid.Column="1"/>
-                        <currency:CurrencyTextBox StringFormat="N2" Height="24" VerticalAlignment="Bottom" Margin="418,0,0,0" Number="{Binding ElementName=listInsumos, Path=SelectedItem.ValorTotal}" Grid.Column="1" />
 
                     </Grid>
 
                     <!-- Composição -->
                     <Grid Grid.Column="1" Margin="10,0,10,0">
                         <TextBlock Text="Relação de Itens da Composição" />
-                        <DataGrid ItemsSource="{Binding ElementName=listInsumos, Path=SelectedItem.Item.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
+                        <DataGrid ItemsSource="{Binding ItemOrcamentoSelecionado.Item.Itens}" AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="0,20,0,0">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Binding="{Binding Insumo.CodigoRef}" IsReadOnly="True" Header="Código" Width="80" />
+                                <DataGridTextColumn Binding="{Binding Insumo.Id}" IsReadOnly="True" Header="Código" Width="80" />
                                 <DataGridTextColumn Binding="{Binding Insumo.Descrição}" IsReadOnly="True" Header="Descrição do Insumo / Serviço" Width="*" />
                                 <DataGridTextColumn Binding="{Binding Insumo.Unidade}" IsReadOnly="True" Header="Unidade" Width="70" />
                                 <DataGridTextColumn Binding="{Binding Insumo.Tipo, Converter={StaticResource TipoInsumoConverter}}" IsReadOnly="True" Header="Tipo" Width="80" />
@@ -276,7 +232,7 @@
 
                 </Grid>
             </TabItem>
-
+            
             <!-- Configurações da Licitação -->
             <TabItem Header="Configurações">
                 <Grid Margin="5,5,5,10">

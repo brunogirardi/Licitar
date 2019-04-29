@@ -12,6 +12,18 @@ namespace Licitar
         public CpuGeral()
         {
             itens = new ObservableCollection<CpuCoefGeral>();
+
+            itens.CollectionChanged += Itens_CollectionChanged; ;
+        }
+
+        private void Itens_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                ((CpuCoefGeral)e.NewItems[0]).PropertyChanged += NotificarMudancaNaCpu;
+            } else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove) {
+                ((CpuCoefGeral)e.OldItems[0]).PropertyChanged -= NotificarMudancaNaCpu;
+            }
         }
 
         #region Propriedades
@@ -104,11 +116,7 @@ namespace Licitar
         /// <param name="e">Propriedade do evento</param>
         private void NotificarMudancaNaCpu(object sender, PropertyChangedEventArgs e)
         {
-            if ((e.PropertyName == "ValorUnitario") || (e.PropertyName == "ValorUnitarioComLs"))
-            {
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
-                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLS)));
-            }
+            OnPropertyChanged(new PropertyChangedEventArgs(e.PropertyName));
         }
 
         #endregion

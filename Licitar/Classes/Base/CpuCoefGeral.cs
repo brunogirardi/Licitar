@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropertyChanged;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace Licitar
         /// <summary>
         /// Coeficiente do insumo utilizado na cpu
         /// </summary>
+        [AlsoNotifyFor(nameof(ValorUnitario), nameof(ValorUnitarioComLs))]
         public double Coeficiente { get; set; }
 
         #region Evento PropertyChanged

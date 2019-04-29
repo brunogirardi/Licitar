@@ -3,5 +3,7 @@
                     xmlns:local="clr-namespace:Licitar">
 
     <local:TipoInsumoConverter x:Key="TipoInsumoConverter" />
+    <local:BdiToIndexConverter x:Key="BdiToIndexConverter" />
+    
     
 </ResourceDictionary>

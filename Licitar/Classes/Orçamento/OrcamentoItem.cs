@@ -72,6 +72,7 @@ namespace Licitar
         /// BDI definido para o insumo
         /// </summary>
         private IChaveValue bdi;
+        [AlsoNotifyFor(nameof(ValorTotal), nameof(ValorComBdi))]
         public IChaveValue Bdi
         {
             get => bdi;

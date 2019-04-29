@@ -10,7 +10,7 @@
       Title="BaseInsumosPage">
 
     <Page.Resources>
-        <local:TipoInsumoConverter x:Key="TipoInsumoConverter" />
+        <local:BdiToIndexConverter x:Key="TipoInsumoConverter" />
     </Page.Resources>
 
     <Grid>
