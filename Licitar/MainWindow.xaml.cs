@@ -51,21 +51,25 @@ namespace Licitar
             Pages.Add(new OrcamentoPage(provider));
             Pages.Add(new BaseInsumosPage());
 
-            Conteudo.Content = Pages[1];
+            Conteudo.Content = Pages[0];
 
         }
 
-        private void ImportarInsumos_Click(object sender, RoutedEventArgs e)
+        private async void ImportarInsumos_Click(object sender, RoutedEventArgs e)
         {
 
-            // Factory.AccessoAppProvider.Insumos = ImportarExcel.CarregarInsumos();
+            await ImportarCsv.CarregarInsumosAsync();
 
-            // ((BaseInsumosPage)Pages[1]).listaInsumos.ItemsSource = Factory.AccessoAppProvider.Insumos;
+            MessageBox.Show("Carregamento dos Insumos Terminado!!!");
+
+            // ((BaseInsumosPage)Pages[1]).listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
         }
 
-        private void ImportarComposicoes_Click(object sender, RoutedEventArgs e)
+        private async void ImportarComposicoes_Click(object sender, RoutedEventArgs e)
         {
-            // ImportarCsv.CarregarComposicoes();
+            await ImportarCsv.CarregarComposicoesAsync();
+
+            MessageBox.Show("Carregamento das Composições Terminado!!!");
 
             // ((BaseInsumosPage)Pages[1]).listaComposicoes.ItemsSource = Factory.AccessoAppProvider.Composicoes;
         }

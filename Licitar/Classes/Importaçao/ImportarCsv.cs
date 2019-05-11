@@ -12,10 +12,10 @@ namespace Licitar
     class ImportarCsv
     {
         /// <summary>
-        /// Importa as composições SINAPI a partir do excel divulgado pela Caixa Econômica
+        /// Importa as composições SINAPI a partir de um arquivo CSV
         /// </summary>
         /// <returns></returns>
-        public static void CarregarComposicoes()
+        public async static Task CarregarComposicoesAsync()
         {
 
             ObservableCollection<IInsumoGeral> cpus = new ObservableCollection<IInsumoGeral>();
@@ -57,16 +57,15 @@ namespace Licitar
                     }
 
                     // Salva na tabela de insumo o titulo das composições
-                    Factory.DBAcesso.InsumoSaveList(cpus);
+                    await Factory.DBAcesso.InsumoSaveListAsync(cpus);
+
+                    MessageBox.Show("Concluído a importação dos Headers das composições");
 
                     // Reinicia o contador para iniciar o processamento dos itens da composição
                     Reader.BaseStream.Position = 0;
 
-                    // Inicia o processamento das composições
+                    //Inicia o processamento das composições
                     ObservableCollection<ItensCpuDb> itens = new ObservableCollection<ItensCpuDb>();
-
-                    // Contador para submeter requests sem ter timeout
-                    int contador = 1;
 
                     while (!Reader.EndOfStream)
                     {
@@ -88,24 +87,75 @@ namespace Licitar
                             itens.Add(novo);
                         }
 
-                        if (contador >= 3000)
-                        {
-                            // Salva os coeficientes no banco de dados
-                            Factory.DBAcesso.ComposiçãoItensListSave(itens);
-
-                            // Zera o contador
-                            contador = 0;
-
-                            // Limpa a coleção
-                            itens.Clear();
-                        }
-
-                        contador += 1;
                     }
+
+                    MessageBox.Show("Iniciando a importação dos coeficientes das composições");
+
+                    // Salva os coeficientes no banco de dados
+                    await Factory.DBAcesso.ComposiçãoItensListSaveAsync(itens);
 
                 }
 
             }
         }
+
+        /// <summary>
+        /// Importa os insumos SINAPI a partir de um arquivo CSV
+        /// </summary>
+        /// <returns></returns>
+        public async static Task CarregarInsumosAsync()
+        {
+
+            ObservableCollection<IInsumoGeral> insumos = new ObservableCollection<IInsumoGeral>();
+
+            // Mostra o dialog para seleção do arquivo
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Title = "Selecione o arquivo para importação";
+            dialog.Filter = "Comma separated value (*.csv)|*.csv";
+
+            // Abre a janela de seleção do arquivo e verifica se a seleção foi válida
+            if (dialog.ShowDialog() == DialogResult.OK)
+            {
+
+                FileStream fs = new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read);
+
+                using (StreamReader Reader = new StreamReader(fs, Encoding.UTF7))
+                {
+
+                    // 1a Etapa - Relaciona todos os cabeçalhos das composições
+                    while (!Reader.EndOfStream)
+                    {
+                        try
+                        {
+                            string[] dados = Reader.ReadLine().Split(';');
+
+                            if (dados.Length == 5)
+                            {
+                                InsumoGeral novo = new InsumoGeral()
+                                {
+                                    CodigoRef = dados[0],
+                                    Descrição = dados[1],
+                                    Unidade = dados[2],
+                                    ValorUnitario = double.Parse(dados[4]),
+                                    Tipo = tipoInsumo.Indefinido
+                                };
+
+                                insumos.Add(novo);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message + " Local:" + Reader.ReadLine());
+                        }
+                    
+                    }
+
+                    // Salva na tabela de insumo o titulo das composições
+                    await Factory.DBAcesso.InsumoSaveListAsync(insumos);
+                }
+            }
+
+        }
+
     }
 }

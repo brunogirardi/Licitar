@@ -23,7 +23,7 @@ namespace Licitar
         public string TextoPesquisa { get; set; } = "";
 
         public ICommand SelecionarItem { get; set; }
-
+        
         public ICommand PesquisarInsumos { get; set; }
 
         #endregion
@@ -37,7 +37,7 @@ namespace Licitar
         {
 
             // Carrega a lista de insumos da base
-            Colecao = CollectionViewSource.GetDefaultView(Factory.AccessoAppProvider.BaseReferencia);
+            Colecao = CollectionViewSource.GetDefaultView(Factory.AccessoAppProvider.BaseOrcamento);
             Colecao.Filter = FiltrarInsumosDescrição;
 
             // Commands

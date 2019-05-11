@@ -40,6 +40,8 @@ namespace Licitar
 
         public ObservableCollection<IInsumoGeral> BaseOrcamento { get; set; }
 
+        public OrcamentoBasesReferenciaLista ListaReferencias { get; set; }
+
         public OrcamentoLista Orcamento { get; set; }
 
         /// <summary>

@@ -7,6 +7,7 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Licitar
 {
@@ -23,6 +24,34 @@ namespace Licitar
 
         #region Insumos
 
+        /// <summary>
+        /// Relaciona os insumos e composições da base de dados de referencia
+        /// </summary>
+        /// <param name="id">Código da base de referencia desejada</param>
+        /// <returns></returns>
+        public ObservableCollection<IInsumoGeral> GeralListar(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<InsumoGeral>(
+                    @"SELECT ins.idRefInsumos as id, ins.CodigoRef, ins.Descrição, ins.Unidade, ins.Tipo, preco.Preco as ValorUnitario
+                      FROM refinsumos as ins
+                      INNER JOIN refprecos as preco
+                      ON ins.idRefInsumos = preco.idRefInsumos
+                      WHERE preco.idRefPrecoBase = @Id",
+                    new { Id = id });
+
+                List<IInsumoGeral> lista = output.ToList<IInsumoGeral>();
+
+                return new ObservableCollection<IInsumoGeral>(lista);
+            }
+        }
+
+        /// <summary>
+        /// Relaciona os insumos da base de dados de referencia
+        /// </summary>
+        /// <param name="id">Código da base de referencia desejada</param>
+        /// <returns></returns>
         public ObservableCollection<IInsumoGeral> InsumosListar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
@@ -41,6 +70,11 @@ namespace Licitar
             }
         }
 
+        /// <summary>
+        /// Busca um insumo ou composição expecifica
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IInsumoGeral InsumoBuscar(int id)
         {
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
@@ -84,7 +118,7 @@ namespace Licitar
         /// Salva a lista de insumos no banco de dados
         /// </summary>
         /// <param name="Lista"></param>
-        public void InsumoSaveList(ObservableCollection<IInsumoGeral> Lista)
+        public async Task InsumoSaveListAsync(ObservableCollection<IInsumoGeral> Lista)
         {
 
             MySqlTransaction transaction;
@@ -112,7 +146,7 @@ namespace Licitar
                                                 SELECT CodigoRef FROM refinsumos WHERE CodigoRef=@CodigoRef
                                             );";
 
-                    command.Parameters.AddWithValue("@Descrição", item.Descrição.Replace("\"", "\\\"").Replace("'", "''"));
+                    command.Parameters.AddWithValue("@Descrição", item.Descrição);
                     command.Parameters.AddWithValue("@Unidade", item.Unidade);
                     command.Parameters.AddWithValue("@Tipo", (int)item.Tipo);
                     command.Parameters.AddWithValue("@CodigoRef", item.CodigoRef);
@@ -129,10 +163,10 @@ namespace Licitar
                     command.Parameters.AddWithValue("@CodigoRef", item.CodigoRef);
                     command.ExecuteNonQuery();
                 }
-                transaction.Commit();
+
+                await Task.Run(() => transaction.Commit());
             }
         }
-
 
         #endregion
 
@@ -234,7 +268,7 @@ namespace Licitar
         /// Salva os itens da composição no banco de dados
         /// </summary>
         /// <param name="itens"></param>
-        public void ComposiçãoItensListSave(ObservableCollection<ItensCpuDb> itens)
+        public async Task ComposiçãoItensListSaveAsync(ObservableCollection<ItensCpuDb> itens)
         {
 
             MySqlTransaction transaction;
@@ -272,7 +306,7 @@ namespace Licitar
 
                 }
 
-                transaction.Commit();
+                await Task.Run(() => transaction.Commit());
             }
 
         }
@@ -352,6 +386,15 @@ namespace Licitar
             }
         }
 
+        public List<OrcamentoBasesReferenciaItem> OrcamentoReferencias(int id)
+        {
+            using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
+            {
+                var output = cnn.Query<OrcamentoBasesReferenciaItem>("SELECT b.idBaseReferencia, b.Descricao as BaseDescricao, p.idRefPrecoBase, p.descricao as PrecoDescricao, ref.idorcrevisao FROM orcbasereferencia as ref INNER JOIN refprecobase as p INNER JOIN refbases as b WHERE p.idrefprecobase = @Id;", new { Id = id });
+
+                return output.ToList();
+            }
+        }
 
         public List<ItensOrcamentoDb> OrcamentoLista(int id)
         {
@@ -377,15 +420,17 @@ namespace Licitar
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
                 // Localiza todos os insumos da base do orçamento
-                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario, ref.CodigoRef as CodigoRef
                                                                             FROM orcinsumos as ins
                                                                             INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                            LEFT JOIN refinsumos as ref on ins.idRefInsumos = ref.idRefInsumos
                                                                             WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos>0;", new { Id = revisao });
 
                 // Localiza todos os insumos da base do orçamento
-                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario, ref.CodigoRef as CodigoRef
                                                                    FROM orcinsumos as ins
                                                                    INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                   LEFT JOIN refinsumos as ref on ins.idRefInsumos = ref.idRefInsumos
                                                                    WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos=0;", new { Id = revisao });
 
                 // Localiza os coeficientes das cpus

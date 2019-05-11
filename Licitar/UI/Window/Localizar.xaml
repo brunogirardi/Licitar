@@ -17,16 +17,25 @@
             <ComboBoxItem>Tipo</ComboBoxItem>
             <ComboBoxItem>Valor</ComboBoxItem>
         </ComboBox>
-        
+
         <TextBlock Text="Valor da Pesquisa" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="156,10,0,0" />
         <TextBox x:Name="TextoPesquisa" 
                  VerticalAlignment="Top" 
                  HorizontalAlignment="Left" 
                  Height="22" 
-                 Width="140" 
+                 Width="113" 
                  Margin="156,27,0,0" 
                  Text="{Binding TextoPesquisa, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Content="Pesquisar" Margin="301,27,0,0" Width="80" Command="{Binding PesquisarInsumos}" />
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Height="22" Content="Pesquisar" Margin="274,26,0,0" Width="80" Command="{Binding PesquisarInsumos}" />
+
+        <RadioButton Content="Principal" Height="22" Width="80" Margin="375,26,337,398" IsChecked="True" />
+        <RadioButton Content="Auxiliares" Height="22" Width="80" Margin="455,26,257,398"  />
+
+        <TextBlock Text="Selecionar a Base" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="641,10,0,0" />
+        <ComboBox VerticalAlignment="Top" HorizontalAlignment="Left" Margin="641,26,0,0" Width="141">
+            <ComboBoxItem IsSelected="True" Content="ORÇAMENTO"/>
+            <ComboBoxItem Content="REFERENCIA"/>
+        </ComboBox>
 
         <DataGrid ItemsSource="{Binding Colecao}" 
                   x:Name="ListaInsumos" 
@@ -75,6 +84,7 @@
 
         <Button Command="{Binding SelecionarItem}"
                 CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Content="Selecionar" VerticalAlignment="Bottom" HorizontalAlignment="Right"  Margin="0,0,10,10" Width="120" />
+
 
     </Grid>
 </Window>

@@ -110,9 +110,10 @@
     <Compile Include="Classes\DataBase\Models\ItensOrcamentoDb.cs" />
     <Compile Include="Classes\DataBase\MysqlDataAccess .cs" />
     <Compile Include="Classes\Importaçao\ImportarCsv.cs" />
-    <Compile Include="Classes\Orçamento\CpuOrcamento.cs" />
-    <Compile Include="Classes\Orçamento\InsumosOrcamento.cs" />
+    <Compile Include="Classes\Orçamento\OrcamentoBasesReferenciaItem.cs" />
+    <Compile Include="Classes\Orçamento\OrcamentoBasesReferenciaLista.cs" />
     <Compile Include="Classes\Orçamento\OrcamentoItem.cs" />
+    <Compile Include="Classes\Orçamento\OrcamentoOperaçoes.cs" />
     <Compile Include="Interfaces\Orcamento\IOrcamentoItem.cs" />
     <Compile Include="Interfaces\Orcamento\IOrcamentoVenda.cs" />
     <Compile Include="OrcamentoManager.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="Classes\Base\CalcularLeisSociais.cs" />
     <Compile Include="Classes\Base\CpuGeral.cs" />
     <Compile Include="Classes\Base\InsumoGeral.cs" />
-    <Compile Include="Classes\Importaçao\ImportarExcel.cs" />
     <Compile Include="Enum\PageSystem.cs" />
     <Compile Include="Factory.cs" />
     <Compile Include="Interfaces\Geral\IChaveValue.cs" />

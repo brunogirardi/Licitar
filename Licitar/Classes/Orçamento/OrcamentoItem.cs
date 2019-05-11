@@ -9,6 +9,7 @@ namespace Licitar
     public class OrcamentoItem : IOrcamentoItem
     {
 
+
         #region Prodriedades
 
         /// <summary>
@@ -21,6 +22,7 @@ namespace Licitar
             set
             {
                 item = value;
+                CodigoRef = item.CodigoRef;
                 if (value != null) item.PropertyChanged += MonitorarMudançaItem;
             }
         }

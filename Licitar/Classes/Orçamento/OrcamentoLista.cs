@@ -242,7 +242,6 @@ namespace Licitar
             }
         }
 
-
         private int IndexDoTituloPai(int valor)
         {
             if (valor == 0) return 0;

@@ -10,6 +10,28 @@ namespace Licitar
 {
     public class CpuCoefGeral : INotifyPropertyChanged
     {
+
+        #region Construtor
+        /// <summary>
+        /// Contrutor padrão
+        /// </summary>
+        public CpuCoefGeral()
+        {
+
+        }
+
+        /// <summary>
+        /// Cria um novo item da composição a partir de um <see cref="IInsumoGeral"/>
+        /// </summary>
+        /// <param name="item"></param>
+        public CpuCoefGeral(IInsumoGeral item)
+        {
+            Insumo = item;
+            Coeficiente = 1;
+        }
+
+        #endregion 
+
         /// <summary>
         /// Id do coeficiente armazenado no banco de dados
         /// </summary>
@@ -25,6 +47,8 @@ namespace Licitar
             {
                 insumo = value;
                 insumo.PropertyChanged += NotificarMudanaNoInsumo;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLs)));
             }
         }
 

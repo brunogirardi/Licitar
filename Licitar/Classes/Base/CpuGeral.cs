@@ -21,8 +21,12 @@ namespace Licitar
             if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
             {
                 ((CpuCoefGeral)e.NewItems[0]).PropertyChanged += NotificarMudancaNaCpu;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(valorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLS)));
             } else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove) {
                 ((CpuCoefGeral)e.OldItems[0]).PropertyChanged -= NotificarMudancaNaCpu;
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(valorUnitario)));
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(ValorUnitarioComLS)));
             }
         }
 
@@ -104,6 +108,20 @@ namespace Licitar
         /// Id do banco de dado de onde o insumo/cpu foi copiado
         /// </summary>
         public int IdBaseReferencia { get; set; }
+
+        #endregion
+
+        #region Metodos publicos
+
+        public void RemoverItem(CpuCoefGeral item)
+        {
+            Itens.Remove(item);
+        }
+
+        public void AdicionarItem(CpuCoefGeral item)
+        {
+            Itens.Add(item);
+        }
 
         #endregion
 

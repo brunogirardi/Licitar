@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace Licitar.Classes.Orçamento
 {
-    class CpuOrcamento : CpuGeral
+    class OrcamentoOperaçoes
     {
 
-        public bool Vinculado { get; set; }
+        //public static IInsumoGeral VincularItemOrcamento()
+        //{
+
+        //}
+
 
     }
 }

@@ -7,7 +7,7 @@
         xmlns:Fluent="urn:fluent-ribbon"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1500">
+        Title="MainWindow" Height="1000" MinWidth="1300" Width="1300">
 
     <Window.Resources>
         <local:PageDisplayConverter x:Key="PageDisplayConverter"/>
@@ -51,7 +51,7 @@
 
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
-            
+
 
             <Fluent:RibbonTabItem Header="Referências">
                 <Fluent:RibbonGroupBox Header="Importar">
@@ -59,6 +59,7 @@
                     <Fluent:Button Header="Insumos" LargeIcon="{fa:IconSource FileImport}" Click="ImportarInsumos_Click" />
                 </Fluent:RibbonGroupBox>
             </Fluent:RibbonTabItem>
+
 
         </Fluent:Ribbon>
             
