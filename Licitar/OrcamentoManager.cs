@@ -36,10 +36,6 @@ namespace Licitar
 
         public ObservableCollection<LeisSociais> LeisSociais { get; set; }
 
-        public ObservableCollection<IInsumoGeral> BaseReferencia { get; set; }
-
-        public ObservableCollection<IInsumoGeral> BaseOrcamento { get; set; }
-
         public OrcamentoBasesReferenciaLista ListaReferencias { get; set; }
 
         public OrcamentoLista Orcamento { get; set; }

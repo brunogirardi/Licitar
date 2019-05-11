@@ -37,7 +37,7 @@ namespace Licitar
         {
 
             // Carrega a lista de insumos da base
-            Colecao = CollectionViewSource.GetDefaultView(Factory.AccessoAppProvider.BaseOrcamento);
+            Colecao = CollectionViewSource.GetDefaultView(Factory.BaseOrcamento);
             Colecao.Filter = FiltrarInsumosDescrição;
 
             // Commands

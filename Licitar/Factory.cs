@@ -22,6 +22,16 @@ namespace Licitar
         public static ObservableCollection<Bdi> Bdis { get => ((App)Application.Current).provider.Bdis; }
 
         /// <summary>
+        /// Acesso a lista de bases de referencia do orçamento
+        /// </summary>
+        public static OrcamentoBasesReferenciaLista BasesReferencia { get => ((App)Application.Current).provider.ListaReferencias; }
+
+        /// <summary>
+        /// Acesso a lista de insumos da base do orçamento
+        /// </summary>
+        public static ObservableCollection<IInsumoGeral> BaseOrcamento { get => ((App)Application.Current).provider.ListaReferencias.Lista[0].Insumos; }
+
+        /// <summary>
         /// Acesso ao banco de dados do sistema
         /// </summary>
         public static MysqlDataAccess DBAcesso { get => new MysqlDataAccess(); }

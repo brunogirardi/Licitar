@@ -22,12 +22,6 @@ namespace Licitar
             // Recupera os dados básicos do orçamento
             provider = Factory.DBAcesso.OrcamentoDados(1);
 
-            // Listar a base de referencia
-            provider.BaseReferencia = Factory.DBAcesso.ComposiçãoListar(1);
-
-            // Listar a base do orçamento
-            provider.BaseOrcamento = Factory.DBAcesso.InsumosOrcamentoLista(1);
-
             // Preenche bases de referencia do orçamento
             provider.ListaReferencias = new OrcamentoBasesReferenciaLista(1);
 

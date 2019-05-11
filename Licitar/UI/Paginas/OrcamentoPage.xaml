@@ -104,15 +104,15 @@
                     <Grid Grid.Column="2">
 
                         <!-- Comandos da Lista -->
-                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Selecionar base" Margin="0,0,68,0" />
+                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Top" Text="Selecionar base" Margin="0,0,267,0" />
                         <ComboBox x:Name="cbSelecionarBase" 
-                                  SelectedIndex="{Binding BaseReferenciaMostrada}"
+                                  SelectedItem="{Binding BaseReferenciaSelecionada}"
+                                  ItemsSource="{Binding BaseReferenciaMostrada}"
+                                  DisplayMemberPath="PrecoDescricao"
                                   VerticalAlignment="Top" 
                                   HorizontalAlignment="Right" 
                                   Margin="0,16,0,0" 
-                                  Width="150">
-                            <ComboBoxItem Content="ORÇAMENTO" />
-                            <ComboBoxItem Content="REFERÊNCIA" />
+                                  Width="350">
                         </ComboBox>
 
 
@@ -120,7 +120,7 @@
                         <TextBox Text="{Binding PesquisarBaseReferencia}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="0,16,0,0" Height="22" />
                         <Button Command="{Binding FiltrarBaseReferencia}" HorizontalAlignment="Left" VerticalAlignment="Top" Content="Buscar" Height="22" Margin="155,16,0,0" />
 
-                        <DataGrid ItemsSource="{Binding BaseReferencia}"
+                        <DataGrid ItemsSource="{Binding BaseReferenciaSelecionada.Insumos}"
                                   SelectedItem="{Binding BaseReferenciaSelecionado}"
                                   VerticalAlignment="Stretch" 
                                   HorizontalAlignment="Stretch"

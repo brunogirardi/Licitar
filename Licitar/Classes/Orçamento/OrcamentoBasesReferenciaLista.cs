@@ -9,7 +9,7 @@ namespace Licitar
     public class OrcamentoBasesReferenciaLista
     {
 
-        List<OrcamentoBasesReferenciaItem> Lista { get; set; } = new List<OrcamentoBasesReferenciaItem>();
+        public ObservableCollection<OrcamentoBasesReferenciaItem> Lista { get; set; } = new ObservableCollection<OrcamentoBasesReferenciaItem>();
 
         /// <summary>
         /// Construtor responsavel por resgatar as informações da lista de bases de referencia atreladas ao orçamento

@@ -490,15 +490,17 @@ namespace Licitar
             using (IDbConnection cnn = new MySqlConnection(LoadConnectionString()))
             {
                 // Localiza todos os insumos da base do orçamento
-                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                IEnumerable<InsumoGeral> insumos = cnn.Query<InsumoGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario, ref.CodigoRef as CodigoRef
                                                                             FROM orcinsumos as ins
                                                                             INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                            LEFT JOIN refinsumos as ref on ins.idRefInsumos = ref.idRefInsumos
                                                                             WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos>0;", new { Id = Revisao });
 
                 // Localiza todos os insumos da base do orçamento
-                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario 
+                IEnumerable<CpuGeral> cpus = cnn.Query<CpuGeral>(@"SELECT ins.idOrcInsumos as id, ins.idRefInsumos as IdBaseReferencia, ins.Descricao as Descrição, ins.Unidade, ins.idTipoInsumos as Tipo, preco.Preco as ValorUnitario, ref.CodigoRef as CodigoRef
                                                                    FROM orcinsumos as ins
                                                                    INNER JOIN refprecos as preco ON ins.idRefInsumos = preco.idRefInsumos
+                                                                   LEFT JOIN refinsumos as ref on ins.idRefInsumos = ref.idRefInsumos
                                                                    WHERE ins.idOrcRevisa = @Id AND ins.idTipoInsumos=0;", new { Id = Revisao });
 
                 // Localiza os coeficientes das cpus

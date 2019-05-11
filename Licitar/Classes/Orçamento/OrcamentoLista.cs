@@ -62,7 +62,7 @@ namespace Licitar
                     };
 
                     if (item.idOrcInsumos != 0)
-                        novoItem.Item = Factory.AccessoAppProvider.BaseOrcamento.Where(x => x.Id == item.idOrcInsumos).First();
+                        novoItem.Item = Factory.BaseOrcamento.Where(x => x.Id == item.idOrcInsumos).First();
 
                     NovaLista.Add(novoItem);
 

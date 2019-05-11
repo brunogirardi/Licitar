@@ -32,6 +32,10 @@ namespace Licitar
 
         public ICommand EdiçãoCpuRemoverInsumo { get; set; }
 
+        public ObservableCollection<OrcamentoBasesReferenciaItem> BaseReferenciaMostrada { get; set; }
+
+        public OrcamentoBasesReferenciaItem BaseReferenciaSelecionada { get; set; }
+
         // Viculador com a base do orçamento
         public ObservableCollection<IInsumoGeral> BaseListaMostradaParaVinculor { get; set; }
 
@@ -46,18 +50,6 @@ namespace Licitar
         public ICollectionView BaseOrcamento { get; set; }
 
         public IOrcamentoItem BaseOrcamentoSelecionado { get; set; }
-
-        private int baseReferenciaMostrada = 0;
-        public int BaseReferenciaMostrada {
-            get => baseReferenciaMostrada;
-            set
-            {
-                baseReferenciaMostrada = value;
-                
-                // Atualiza a lista para a base selecionada
-                AtualizarBaseParaVincular();
-            }
-        }
 
         public string PesquisarBaseOrcamento { get; set; } = "";
 
@@ -89,7 +81,8 @@ namespace Licitar
             BaseListaMostradaParaVinculor = new ObservableCollection<IInsumoGeral>();
             BaseReferencia = CollectionViewSource.GetDefaultView(BaseListaMostradaParaVinculor);
             BaseReferencia.Filter = FiltrarInsumosDescrição;
-            BaseReferenciaMostrada = 0;
+
+            BaseReferenciaMostrada = Factory.BasesReferencia.Lista;
 
             // Comandos
             FiltrarBaseReferencia = new RelayCommand(new Action<object>(ExecuteFiltroBaseReferencia));
@@ -260,14 +253,14 @@ namespace Licitar
             int id = 0;
 
             // Verifica se o item está vindo de alguma base externa
-            if (BaseReferenciaMostrada == 1)
+            if (BaseReferenciaSelecionada.BaseDescricao != "ORÇAMENTO")
             {
 
                 IInsumoGeral Insumo = BaseReferenciaSelecionado;
                 List<IInsumoGeral> Lista;
 
 
-                ObservableCollection<IInsumoGeral> baseOrcamento = Factory.AccessoAppProvider.BaseOrcamento;
+                ObservableCollection<IInsumoGeral> baseOrcamento = Factory.BaseOrcamento;
                 Lista = baseOrcamento.Where(x => x.CodigoRef == Insumo.Id.ToString()).ToList();
 
                 // Verifica se o item faz parte da base, caso negativo adiciona na base
@@ -277,7 +270,7 @@ namespace Licitar
                     id = Factory.DBAcesso.InsumosOrcamentoAdicionarDaBase(Insumo.Id, 1);
 
                     // Atualiza a base do orçamento com os itens importados
-                    Factory.DBAcesso.InsumosOrcamentoListaAtualizar(Factory.AccessoAppProvider.BaseOrcamento, 1);
+                    Factory.DBAcesso.InsumosOrcamentoListaAtualizar(Factory.BaseOrcamento, 1);
                 }
                 else
                 {
@@ -285,7 +278,7 @@ namespace Licitar
                 }
 
                 // Localiza na lista da base do orçamento o item a ser linkado no orçamento
-                source = Factory.AccessoAppProvider.BaseOrcamento.Where(x => x.Id == id).First();
+                source = Factory.BaseOrcamento.Where(x => x.Id == id).First();
 
             }
             else
@@ -307,7 +300,7 @@ namespace Licitar
         private bool CanExecuteVincularOrcamento(object obj)
         {
             // Verifica se há itens selecionados na lista da base de referencia e no orçamento
-            if((BaseReferenciaSelecionado != null) && (BaseOrcamentoSelecionado != null) && (BaseReferenciaMostrada >= 0))
+            if((BaseReferenciaSelecionado != null) && (BaseOrcamentoSelecionado != null))
                 return true;
 
             return false;
@@ -346,34 +339,6 @@ namespace Licitar
         #endregion
 
         #region Helper Functions para Vincular com a Base
-
-        /// <summary>
-        /// Atualiza a lista de itens que será mostrada na base de referencia
-        /// </summary>
-        private void AtualizarBaseParaVincular()
-        {
-
-            BaseListaMostradaParaVinculor.Clear();
-
-            ObservableCollection<IInsumoGeral> ListaAMostrar;
-
-            if (baseReferenciaMostrada == 0)
-            {
-                ListaAMostrar = Provider.BaseOrcamento;
-            }
-            else
-            {
-                ListaAMostrar = Provider.BaseReferencia;
-            }
-
-            foreach (IInsumoGeral item in ListaAMostrar)
-            {
-                BaseListaMostradaParaVinculor.Add(item);
-            }
-
-            BaseReferencia.Refresh();
-
-        }
 
         #endregion
 
